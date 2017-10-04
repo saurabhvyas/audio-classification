@@ -1,0 +1,4228 @@
+1
+00:00:02,959 --> 00:00:08,009
+good morning everyone for those of you
+
+2
+00:00:05,400 --> 00:00:10,500
+in my time zone good afternoon for those
+
+3
+00:00:08,010 --> 00:00:13,110
+of you in New York all right so today
+
+4
+00:00:10,500 --> 00:00:15,180
+I'm going to give you a talk about
+
+5
+00:00:13,110 --> 00:00:18,960
+practical methodology for deploying
+
+6
+00:00:15,179 --> 00:00:23,309
+machine learning this is a talk that's
+
+7
+00:00:18,960 --> 00:00:26,040
+sort of an homage to talk by my Master's
+
+8
+00:00:23,310 --> 00:00:27,360
+adviser Andrew who was a professor at
+
+9
+00:00:26,039 --> 00:00:29,819
+Stanford at the time he did the original
+
+10
+00:00:27,359 --> 00:00:31,999
+version of this talk today I'll be
+
+11
+00:00:29,820 --> 00:00:34,530
+presenting my own take on it and some
+
+12
+00:00:32,000 --> 00:00:36,030
+updated advice based on the last few
+
+13
+00:00:34,530 --> 00:00:40,890
+years of advances in machine learning
+
+14
+00:00:36,030 --> 00:00:43,140
+and in terms of the format of the talk
+
+15
+00:00:40,890 --> 00:00:46,230
+I'll be able to answer a few questions
+
+16
+00:00:43,140 --> 00:00:47,970
+live during the talk but for the most
+
+17
+00:00:46,230 --> 00:00:49,260
+part if there's a lot of questions I'll
+
+18
+00:00:47,969 --> 00:00:51,149
+need to postpone them until the very end
+
+19
+00:00:49,260 --> 00:00:52,620
+but if there's just one or two quick
+
+20
+00:00:51,149 --> 00:00:55,109
+clarification things about the slides
+
+21
+00:00:52,620 --> 00:00:56,400
+feel free to jump in and as long as
+
+22
+00:00:55,110 --> 00:01:00,210
+there's a low volume of questions I'll
+
+23
+00:00:56,399 --> 00:01:01,829
+answer them as we go the basic idea
+
+24
+00:01:00,210 --> 00:01:04,590
+behind this talk is that I want to help
+
+25
+00:01:01,829 --> 00:01:06,569
+focus your attention on what drives
+
+26
+00:01:04,589 --> 00:01:07,979
+success in machine learning I understand
+
+27
+00:01:06,570 --> 00:01:11,340
+a lot of people at this conference are
+
+28
+00:01:07,979 --> 00:01:14,159
+just beginning their journey of learning
+
+29
+00:01:11,340 --> 00:01:16,920
+how to work in AI and how to use machine
+
+30
+00:01:14,159 --> 00:01:19,979
+learning the thing is a lot of tutorials
+
+31
+00:01:16,920 --> 00:01:21,930
+and text books and videos about machine
+
+32
+00:01:19,979 --> 00:01:24,629
+learning don't really focus you on
+
+33
+00:01:21,930 --> 00:01:26,850
+exactly what will lead to the fastest
+
+34
+00:01:24,630 --> 00:01:29,250
+improvement in your ability to function
+
+35
+00:01:26,850 --> 00:01:34,290
+in the field most tutorials that you
+
+36
+00:01:29,250 --> 00:01:36,750
+read proceed by amassing several
+
+37
+00:01:34,290 --> 00:01:39,300
+different algorithms inductive
+
+38
+00:01:36,750 --> 00:01:41,700
+principles inference techniques and so
+
+39
+00:01:39,299 --> 00:01:43,469
+on they make it seem like the way to
+
+40
+00:01:41,700 --> 00:01:46,320
+become an expert in machine learning is
+
+41
+00:01:43,470 --> 00:01:48,480
+to know exactly how every algorithm from
+
+42
+00:01:46,320 --> 00:01:51,780
+the relevance vector machine to Bayesian
+
+43
+00:01:48,479 --> 00:01:53,069
+linear regression works so I'd say over
+
+44
+00:01:51,780 --> 00:01:54,840
+here this is one of the things that
+
+45
+00:01:53,070 --> 00:01:57,780
+people seem to think drive success in
+
+46
+00:01:54,840 --> 00:01:59,550
+machine learning it's always nice to
+
+47
+00:01:57,780 --> 00:02:01,080
+know about more algorithms but I would
+
+48
+00:01:59,549 --> 00:02:03,899
+argue it's far more important to have
+
+49
+00:02:01,079 --> 00:02:06,989
+lots of data and to know how to apply
+
+50
+00:02:03,899 --> 00:02:09,929
+three to four standard techniques when I
+
+51
+00:02:06,990 --> 00:02:12,060
+say know how to apply I mean to know how
+
+52
+00:02:09,929 --> 00:02:13,039
+to configure their settings understand
+
+53
+00:02:12,060 --> 00:02:15,470
+whether they're working well
+
+54
+00:02:13,040 --> 00:02:17,570
+we're working poorly and understand how
+
+55
+00:02:15,469 --> 00:02:20,059
+to adjust and react if you find that
+
+56
+00:02:17,569 --> 00:02:23,629
+they are working poorly so this talk
+
+57
+00:02:20,060 --> 00:02:26,930
+today focuses on this third topic how to
+
+58
+00:02:23,629 --> 00:02:31,549
+apply the bread-and-butter techniques of
+
+59
+00:02:26,930 --> 00:02:34,100
+machine learning as a case study that
+
+60
+00:02:31,549 --> 00:02:37,189
+I'll use as a running example to help
+
+61
+00:02:34,099 --> 00:02:39,049
+give you concrete instances of the
+
+62
+00:02:37,189 --> 00:02:40,429
+different advice that I apply I'll be
+
+63
+00:02:39,049 --> 00:02:42,679
+telling you about a system that I helped
+
+64
+00:02:40,430 --> 00:02:45,040
+build at Google this is the Street View
+
+65
+00:02:42,680 --> 00:02:48,560
+address numbered transcription system
+
+66
+00:02:45,040 --> 00:02:50,330
+the basic idea is that Google Maps can
+
+67
+00:02:48,560 --> 00:02:52,430
+give you directions to many different
+
+68
+00:02:50,329 --> 00:02:55,069
+buildings and addresses around the world
+
+69
+00:02:52,430 --> 00:02:56,690
+but we don't necessarily have all the
+
+70
+00:02:55,069 --> 00:02:59,689
+buildings you might want to go to in our
+
+71
+00:02:56,689 --> 00:03:02,509
+Maps already one way that we can add
+
+72
+00:02:59,689 --> 00:03:05,119
+more buildings to our maps is to use the
+
+73
+00:03:02,510 --> 00:03:07,580
+GPS and photo data from the Street View
+
+74
+00:03:05,120 --> 00:03:09,020
+cars as the Street View cars drive
+
+75
+00:03:07,579 --> 00:03:11,329
+around different streets they take
+
+76
+00:03:09,019 --> 00:03:13,309
+photos of everything they see and they
+
+77
+00:03:11,329 --> 00:03:15,619
+also record the GPS coordinates of their
+
+78
+00:03:13,310 --> 00:03:17,390
+location when they took the photo so if
+
+79
+00:03:15,620 --> 00:03:18,710
+we see the address number of a building
+
+80
+00:03:17,389 --> 00:03:21,589
+and that building isn't already on our
+
+81
+00:03:18,709 --> 00:03:24,229
+map we could in principle put that
+
+82
+00:03:21,590 --> 00:03:27,500
+building into Google Maps at the correct
+
+83
+00:03:24,229 --> 00:03:29,269
+GPS coordinates the problem is there are
+
+84
+00:03:27,500 --> 00:03:31,310
+an awful lot of address numbers that we
+
+85
+00:03:29,269 --> 00:03:33,229
+take photos of and it's labor-intensive
+
+86
+00:03:31,310 --> 00:03:35,720
+to transcribe them and put them on the
+
+87
+00:03:33,229 --> 00:03:38,299
+map the way we solve this problem was we
+
+88
+00:03:35,720 --> 00:03:40,180
+built a neural network to transcribe the
+
+89
+00:03:38,299 --> 00:03:42,979
+numbers out of the photographs and
+
+90
+00:03:40,180 --> 00:03:44,810
+convert them into a computer readable
+
+91
+00:03:42,979 --> 00:03:48,109
+digital format so that we could then
+
+92
+00:03:44,810 --> 00:03:49,460
+update the maps entries throughout this
+
+93
+00:03:48,109 --> 00:03:51,909
+talk I'll refer to a few different
+
+94
+00:03:49,459 --> 00:03:55,249
+challenges that we encountered along the
+
+95
+00:03:51,909 --> 00:03:57,739
+the progress of this project and I'll
+
+96
+00:03:55,250 --> 00:03:59,780
+describe the way that we overcame each
+
+97
+00:03:57,739 --> 00:04:01,219
+of these challenges as part of my
+
+98
+00:03:59,780 --> 00:04:05,840
+general advice for you to apply in your
+
+99
+00:04:01,220 --> 00:04:08,690
+own work the basic methodology I'm going
+
+100
+00:04:05,840 --> 00:04:12,230
+to advocate is a three step process in
+
+101
+00:04:08,689 --> 00:04:14,029
+the first step you identify the needs
+
+102
+00:04:12,229 --> 00:04:15,709
+that you have for the product or the
+
+103
+00:04:14,030 --> 00:04:18,830
+service or the research project that
+
+104
+00:04:15,709 --> 00:04:20,799
+you're building you then use these needs
+
+105
+00:04:18,829 --> 00:04:23,389
+to figure out what your goals should be
+
+106
+00:04:20,799 --> 00:04:26,009
+your goals should be specific and
+
+107
+00:04:23,389 --> 00:04:28,469
+quantitative part of the planning
+
+108
+00:04:26,010 --> 00:04:31,590
+to choose what metrics you will use to
+
+109
+00:04:28,470 --> 00:04:33,270
+measure success and exactly what kind of
+
+110
+00:04:31,590 --> 00:04:37,050
+numbers you need to achieve for those
+
+111
+00:04:33,270 --> 00:04:39,060
+metrics after you've set up your goals
+
+112
+00:04:37,050 --> 00:04:42,150
+you need to build an end-to-end system
+
+113
+00:04:39,060 --> 00:04:43,980
+as soon as possible you don't want to
+
+114
+00:04:42,150 --> 00:04:46,110
+over engineer your project before you
+
+115
+00:04:43,980 --> 00:04:48,270
+begin working on it just think of the
+
+116
+00:04:46,110 --> 00:04:51,570
+simplest thing that can actually produce
+
+117
+00:04:48,270 --> 00:04:53,910
+a usable output for the task that you
+
+118
+00:04:51,570 --> 00:04:56,280
+want to solve it doesn't matter if the
+
+119
+00:04:53,910 --> 00:04:57,630
+output is actually any good or not it
+
+120
+00:04:56,280 --> 00:04:59,570
+just needs to be something that can
+
+121
+00:04:57,630 --> 00:05:01,770
+actually be scored using your metrics
+
+122
+00:04:59,570 --> 00:05:04,770
+once you have the end-to-end system in
+
+123
+00:05:01,770 --> 00:05:07,980
+place you begin step three data driven
+
+124
+00:05:04,770 --> 00:05:10,260
+refinement in step three you measure
+
+125
+00:05:07,980 --> 00:05:11,700
+different properties of your system you
+
+126
+00:05:10,260 --> 00:05:13,230
+figure out which aspects of it are
+
+127
+00:05:11,700 --> 00:05:15,930
+working well and which aspects are
+
+128
+00:05:13,230 --> 00:05:18,300
+working poorly and you use these data
+
+129
+00:05:15,930 --> 00:05:20,900
+driven metrics to improve the parts that
+
+130
+00:05:18,300 --> 00:05:24,810
+are working poorly and improve them I
+
+131
+00:05:20,900 --> 00:05:30,260
+haven't uploaded the slides sorry I can
+
+132
+00:05:24,810 --> 00:05:35,790
+upload them right after the talk after
+
+133
+00:05:30,260 --> 00:05:38,430
+you have improved your system with this
+
+134
+00:05:35,790 --> 00:05:40,050
+data-driven refinement process you might
+
+135
+00:05:38,430 --> 00:05:42,660
+end up with something that's complex at
+
+136
+00:05:40,050 --> 00:05:44,790
+the end but it won't be over engineered
+
+137
+00:05:42,660 --> 00:05:46,790
+it will be engineered to be just as
+
+138
+00:05:44,790 --> 00:05:49,320
+complex as you need to solve the task if
+
+139
+00:05:46,790 --> 00:05:50,940
+you design a complicated system before
+
+140
+00:05:49,320 --> 00:05:53,010
+you've actually started tackling the
+
+141
+00:05:50,940 --> 00:05:54,990
+problem you might overestimate how
+
+142
+00:05:53,010 --> 00:05:56,340
+complicated it needs to be and end up
+
+143
+00:05:54,990 --> 00:05:59,360
+with something that's harder to maintain
+
+144
+00:05:56,340 --> 00:06:01,260
+and use in your business than you need
+
+145
+00:05:59,360 --> 00:06:03,180
+all right so that's the overall
+
+146
+00:06:01,260 --> 00:06:04,890
+three-step process now I'll go through
+
+147
+00:06:03,180 --> 00:06:07,830
+each of these steps in a little bit more
+
+148
+00:06:04,890 --> 00:06:09,750
+detail the first step is identifying the
+
+149
+00:06:07,830 --> 00:06:12,510
+needs of your product or service and
+
+150
+00:06:09,750 --> 00:06:15,780
+defining metric based goals that will
+
+151
+00:06:12,510 --> 00:06:18,330
+ensure you meet those needs one thing
+
+152
+00:06:15,780 --> 00:06:20,250
+you need to think about is how could how
+
+153
+00:06:18,330 --> 00:06:23,160
+much accuracy you actually need in your
+
+154
+00:06:20,250 --> 00:06:24,420
+product obviously everyone would always
+
+155
+00:06:23,160 --> 00:06:27,120
+like to build a machine learning system
+
+156
+00:06:24,420 --> 00:06:28,620
+that's absolutely perfect but that's
+
+157
+00:06:27,120 --> 00:06:31,620
+usually going to be extremely expensive
+
+158
+00:06:28,620 --> 00:06:33,780
+if it's even possible at all so you need
+
+159
+00:06:31,620 --> 00:06:36,120
+to think about how much time and money
+
+160
+00:06:33,780 --> 00:06:38,910
+you're going to invest to get different
+
+161
+00:06:36,120 --> 00:06:39,900
+levels of accuracy and you probably want
+
+162
+00:06:38,910 --> 00:06:41,870
+to initially plan
+
+163
+00:06:39,900 --> 00:06:45,780
+for the lowest amount of accuracy that's
+
+164
+00:06:41,870 --> 00:06:48,180
+actually usable in your application some
+
+165
+00:06:45,780 --> 00:06:50,070
+applications intrinsically demand lots
+
+166
+00:06:48,180 --> 00:06:52,710
+and lots of accuracy if you're building
+
+167
+00:06:50,070 --> 00:06:54,270
+a surgery robot that's going to cut
+
+168
+00:06:52,710 --> 00:06:55,140
+apart people's veins and stitch them
+
+169
+00:06:54,270 --> 00:06:56,910
+back together
+
+170
+00:06:55,139 --> 00:06:58,559
+any machine learning you need in there
+
+171
+00:06:56,910 --> 00:07:00,330
+needs to be extremely accurate
+
+172
+00:06:58,560 --> 00:07:03,150
+otherwise you're going to cause lots of
+
+173
+00:07:00,330 --> 00:07:04,500
+pain and suffering and injury if you're
+
+174
+00:07:03,150 --> 00:07:05,940
+building a mobile app where you take a
+
+175
+00:07:04,500 --> 00:07:08,490
+picture of your friends that it says
+
+176
+00:07:05,940 --> 00:07:10,080
+which celebrity they look like there's
+
+177
+00:07:08,490 --> 00:07:11,880
+not even really a right answer in that
+
+178
+00:07:10,080 --> 00:07:13,410
+case so it's alright if you don't
+
+179
+00:07:11,880 --> 00:07:16,050
+necessarily have the most accurate
+
+180
+00:07:13,410 --> 00:07:17,310
+machine learning system of all time most
+
+181
+00:07:16,050 --> 00:07:20,160
+applications fall somewhere in the
+
+182
+00:07:17,310 --> 00:07:22,800
+middle a lot of a lot of business
+
+183
+00:07:20,160 --> 00:07:26,130
+applications where you use predictions
+
+184
+00:07:22,800 --> 00:07:29,010
+to plan investments in sales and
+
+185
+00:07:26,130 --> 00:07:30,390
+acquisitions and so on they fall into
+
+186
+00:07:29,010 --> 00:07:31,830
+this realm where if you can make better
+
+187
+00:07:30,389 --> 00:07:35,279
+predictions than the humans are already
+
+188
+00:07:31,830 --> 00:07:37,020
+making they'll make money we at least
+
+189
+00:07:35,280 --> 00:07:38,250
+save money relative to what you do if
+
+190
+00:07:37,020 --> 00:07:40,410
+you operate it off of the human
+
+191
+00:07:38,250 --> 00:07:42,780
+predictions and the more accurate your
+
+192
+00:07:40,410 --> 00:07:45,480
+predictions are the better you'll do but
+
+193
+00:07:42,780 --> 00:07:50,070
+just getting past the human baseline is
+
+194
+00:07:45,479 --> 00:07:51,809
+sufficient to have a useful product for
+
+195
+00:07:50,070 --> 00:07:54,630
+the street view address number
+
+196
+00:07:51,810 --> 00:07:57,030
+transcription system we determined that
+
+197
+00:07:54,630 --> 00:08:00,570
+we wanted to have human level accuracy
+
+198
+00:07:57,030 --> 00:08:02,250
+in our transcription we wanted to make
+
+199
+00:08:00,570 --> 00:08:04,740
+sure that we weren't getting any address
+
+200
+00:08:02,250 --> 00:08:07,440
+numbers wrong compared to what human
+
+201
+00:08:04,740 --> 00:08:09,360
+transcribers would get the reason is
+
+202
+00:08:07,440 --> 00:08:11,850
+that it's very frustrating if you ask
+
+203
+00:08:09,360 --> 00:08:13,350
+for directions and then Google Maps
+
+204
+00:08:11,849 --> 00:08:15,299
+leads you to the wrong address
+
+205
+00:08:13,349 --> 00:08:17,549
+so we needed to make sure that we didn't
+
+206
+00:08:15,300 --> 00:08:21,690
+reduce the accuracy below the system
+
+207
+00:08:17,550 --> 00:08:25,080
+that we were already using in order to
+
+208
+00:08:21,690 --> 00:08:27,990
+measure the accuracy we were able to
+
+209
+00:08:25,080 --> 00:08:30,900
+just use the percentage of examples that
+
+210
+00:08:27,990 --> 00:08:33,120
+are correct that's a relatively
+
+211
+00:08:30,900 --> 00:08:34,500
+straightforward metric but there's other
+
+212
+00:08:33,120 --> 00:08:36,840
+tasks where you don't want to just
+
+213
+00:08:34,500 --> 00:08:38,910
+measure the number of examples that are
+
+214
+00:08:36,839 --> 00:08:40,589
+correct for example if you're building a
+
+215
+00:08:38,909 --> 00:08:44,339
+test to determine whether someone has a
+
+216
+00:08:40,589 --> 00:08:47,069
+rare disease you can just say nobody has
+
+217
+00:08:44,339 --> 00:08:49,679
+the disease because the disease is rare
+
+218
+00:08:47,070 --> 00:08:52,320
+you'll get a very high accuracy that way
+
+219
+00:08:49,680 --> 00:08:53,540
+suppose that only 1/10 of 1% of all
+
+220
+00:08:52,320 --> 00:08:56,270
+people in the population
+
+221
+00:08:53,540 --> 00:08:59,630
+have this disease you'd get 99.9%
+
+222
+00:08:56,269 --> 00:09:01,339
+accuracy for cases like that there are
+
+223
+00:08:59,630 --> 00:09:03,890
+other metrics that you should use
+
+224
+00:09:01,339 --> 00:09:07,519
+so precision tells you the number of
+
+225
+00:09:03,889 --> 00:09:09,619
+detections that are correct in the test
+
+226
+00:09:07,519 --> 00:09:11,989
+for the disease if you say someone has a
+
+227
+00:09:09,620 --> 00:09:13,280
+disease precision is the probability
+
+228
+00:09:11,990 --> 00:09:16,190
+that you're correct that they actually
+
+229
+00:09:13,279 --> 00:09:19,339
+have the disease another metric is
+
+230
+00:09:16,190 --> 00:09:21,470
+recall the percentage of positive
+
+231
+00:09:19,339 --> 00:09:23,809
+examples that you actually detect so in
+
+232
+00:09:21,470 --> 00:09:25,670
+the disease example this would mean of
+
+233
+00:09:23,810 --> 00:09:27,500
+all the people who have the disease what
+
+234
+00:09:25,670 --> 00:09:30,410
+what percentage of them do you correctly
+
+235
+00:09:27,500 --> 00:09:32,360
+diagnosed as having it for the Street
+
+236
+00:09:30,410 --> 00:09:35,180
+View application this didn't actually
+
+237
+00:09:32,360 --> 00:09:37,370
+matter because our different classes
+
+238
+00:09:35,180 --> 00:09:42,170
+that we were categorizing into you were
+
+239
+00:09:37,370 --> 00:09:44,600
+the six digit numbers that addresses can
+
+240
+00:09:42,170 --> 00:09:46,460
+take on there's not any one class that's
+
+241
+00:09:44,600 --> 00:09:49,370
+extremely rare and another class that's
+
+242
+00:09:46,459 --> 00:09:50,839
+extremely common one metric we did end
+
+243
+00:09:49,370 --> 00:09:52,280
+up using that was important though and
+
+244
+00:09:50,839 --> 00:09:53,479
+that you don't see very often and that I
+
+245
+00:09:52,279 --> 00:09:56,479
+think should be used more often is
+
+246
+00:09:53,480 --> 00:09:59,690
+coverage so you probably have a part of
+
+247
+00:09:56,480 --> 00:10:00,950
+coverage before the idea behind coverage
+
+248
+00:09:59,690 --> 00:10:02,930
+is you can have a machine learning
+
+249
+00:10:00,949 --> 00:10:06,139
+system that refuses to classify some
+
+250
+00:10:02,930 --> 00:10:07,760
+inputs basically if you show it an
+
+251
+00:10:06,139 --> 00:10:10,489
+example where it's not confident what
+
+252
+00:10:07,760 --> 00:10:12,110
+the correct answer is it can say I am
+
+253
+00:10:10,490 --> 00:10:13,880
+NOT confident what the correct answer is
+
+254
+00:10:12,110 --> 00:10:17,150
+you should not use machine learning to
+
+255
+00:10:13,880 --> 00:10:19,250
+solve this particular input coverage is
+
+256
+00:10:17,149 --> 00:10:20,299
+the percentage of examples that the
+
+257
+00:10:19,250 --> 00:10:23,360
+machine learning system actually
+
+258
+00:10:20,300 --> 00:10:25,700
+confidently classifies and using this
+
+259
+00:10:23,360 --> 00:10:28,250
+metric was key to our success on the
+
+260
+00:10:25,699 --> 00:10:29,839
+street view house number pipeline it's
+
+261
+00:10:28,250 --> 00:10:32,120
+very difficult to reach human level
+
+262
+00:10:29,839 --> 00:10:34,069
+accuracy on address number transcription
+
+263
+00:10:32,120 --> 00:10:36,020
+if you insist
+
+264
+00:10:34,069 --> 00:10:38,419
+that the network classifies every single
+
+265
+00:10:36,019 --> 00:10:40,279
+example that you show it but you can
+
+266
+00:10:38,420 --> 00:10:41,930
+easily reach human level accuracy if
+
+267
+00:10:40,279 --> 00:10:43,999
+you're willing to reduce coverage if
+
+268
+00:10:41,930 --> 00:10:47,390
+you're willing to say I'm going to throw
+
+269
+00:10:44,000 --> 00:10:50,180
+out 6 percent of the examples so that I
+
+270
+00:10:47,389 --> 00:10:52,609
+can reach 99.5% accuracy on the
+
+271
+00:10:50,180 --> 00:10:55,040
+remaining ones then you can actually get
+
+272
+00:10:52,610 --> 00:10:56,030
+as high of accuracy as you want provided
+
+273
+00:10:55,040 --> 00:10:58,760
+that you're willing to throw out more
+
+274
+00:10:56,029 --> 00:11:00,229
+and more examples so when we set our
+
+275
+00:10:58,759 --> 00:11:02,299
+goals for the street view house number
+
+276
+00:11:00,230 --> 00:11:04,640
+transcription pipeline we set our goals
+
+277
+00:11:02,300 --> 00:11:06,740
+in terms of accuracy and coverage we
+
+278
+00:11:04,639 --> 00:11:07,309
+wanted to get human level accuracy at a
+
+279
+00:11:06,740 --> 00:11:08,840
+specific
+
+280
+00:11:07,310 --> 00:11:10,700
+level of coverage that we felt was
+
+281
+00:11:08,840 --> 00:11:13,340
+necessary to justify the investment in
+
+282
+00:11:10,700 --> 00:11:14,390
+the machine learning pipeline there are
+
+283
+00:11:13,340 --> 00:11:16,190
+other applications besides
+
+284
+00:11:14,390 --> 00:11:17,990
+classification out there for example if
+
+285
+00:11:16,190 --> 00:11:19,820
+you're using regression you need to use
+
+286
+00:11:17,990 --> 00:11:21,590
+a metric based on the size of the
+
+287
+00:11:19,820 --> 00:11:23,240
+prediction errors that you make like
+
+288
+00:11:21,590 --> 00:11:28,490
+mean squared error or mean absolute
+
+289
+00:11:23,240 --> 00:11:30,320
+error all right so the second stage of
+
+290
+00:11:28,490 --> 00:11:32,990
+the methodology is where you actually
+
+291
+00:11:30,320 --> 00:11:35,240
+build your end-to-end system you want to
+
+292
+00:11:32,990 --> 00:11:37,000
+get your system up and running as soon
+
+293
+00:11:35,240 --> 00:11:39,950
+as possible so that you can identify
+
+294
+00:11:37,000 --> 00:11:41,150
+what the real challenges are a lot of
+
+295
+00:11:39,950 --> 00:11:42,470
+the time the aspects that are
+
+296
+00:11:41,150 --> 00:11:43,760
+challenging are not the ones that you
+
+297
+00:11:42,470 --> 00:11:45,980
+thought they would be before you started
+
+298
+00:11:43,760 --> 00:11:48,290
+building it everything and so you want
+
+299
+00:11:45,980 --> 00:11:52,040
+to find out what's actually going to be
+
+300
+00:11:48,290 --> 00:11:54,050
+difficult as soon as possible I'm
+
+301
+00:11:52,040 --> 00:11:57,020
+advocating building the simplest viable
+
+302
+00:11:54,050 --> 00:11:59,660
+system first the question is what's the
+
+303
+00:11:57,020 --> 00:12:01,310
+simplest viable system and and where
+
+304
+00:11:59,660 --> 00:12:02,630
+should you start what should you use as
+
+305
+00:12:01,310 --> 00:12:05,060
+your beginning point from which you
+
+306
+00:12:02,630 --> 00:12:06,560
+start to iterate one thing that you can
+
+307
+00:12:05,060 --> 00:12:08,060
+do if you're working on an application
+
+308
+00:12:06,560 --> 00:12:10,160
+that's already been done before by other
+
+309
+00:12:08,060 --> 00:12:13,490
+people is just to find a published
+
+310
+00:12:10,160 --> 00:12:15,560
+result in this same field and copy the
+
+311
+00:12:13,490 --> 00:12:17,300
+state-of-the-art method you might not
+
+312
+00:12:15,560 --> 00:12:19,130
+want to use literally the method that
+
+313
+00:12:17,300 --> 00:12:21,500
+gets the absolute best accuracy you
+
+314
+00:12:19,130 --> 00:12:23,030
+might want to get as simple and easy to
+
+315
+00:12:21,500 --> 00:12:27,320
+implement one that's very close to the
+
+316
+00:12:23,030 --> 00:12:28,820
+best accuracy if you don't know of any
+
+317
+00:12:27,320 --> 00:12:31,370
+existing publications that solve the
+
+318
+00:12:28,820 --> 00:12:33,680
+same application as you then you
+
+319
+00:12:31,370 --> 00:12:36,890
+probably need to make a judgment call
+
+320
+00:12:33,680 --> 00:12:38,540
+about what a relatively standard
+
+321
+00:12:36,890 --> 00:12:40,220
+algorithm is that you should start with
+
+322
+00:12:38,540 --> 00:12:41,930
+so now I'm going to give you some
+
+323
+00:12:40,220 --> 00:12:45,560
+guidance about what some reasonable
+
+324
+00:12:41,930 --> 00:12:48,740
+baselines are to begin with one of the
+
+325
+00:12:45,560 --> 00:12:50,720
+first questions to ask today in 2015 is
+
+326
+00:12:48,740 --> 00:12:52,670
+whether you should use deep learning or
+
+327
+00:12:50,720 --> 00:12:55,310
+not deep learning is very hot right now
+
+328
+00:12:52,670 --> 00:12:56,600
+and it's my specialty so you're probably
+
+329
+00:12:55,310 --> 00:12:57,620
+expecting me to tell you should always
+
+330
+00:12:56,600 --> 00:13:00,740
+use deep learning all the time
+
+331
+00:12:57,620 --> 00:13:01,940
+that's actually not the case one of the
+
+332
+00:13:00,740 --> 00:13:03,740
+first things you should decide is
+
+333
+00:13:01,940 --> 00:13:07,850
+whether the problem you're tackling
+
+334
+00:13:03,740 --> 00:13:09,650
+requires deep learning or not many tasks
+
+335
+00:13:07,850 --> 00:13:12,110
+have lots of noise and very little
+
+336
+00:13:09,650 --> 00:13:13,480
+structure in them usually if this is the
+
+337
+00:13:12,110 --> 00:13:15,770
+case you don't want deep learning
+
+338
+00:13:13,480 --> 00:13:16,540
+something like linear regression will
+
+339
+00:13:15,770 --> 00:13:19,520
+suffice
+
+340
+00:13:16,540 --> 00:13:20,900
+if there's relatively little noise in
+
+341
+00:13:19,520 --> 00:13:23,300
+your problem setup
+
+342
+00:13:20,900 --> 00:13:25,400
+there's a lot of complex structure then
+
+343
+00:13:23,300 --> 00:13:27,110
+you can use deep learning so when I say
+
+344
+00:13:25,400 --> 00:13:29,810
+that something has complex structure I
+
+345
+00:13:27,110 --> 00:13:33,580
+mean you have a task like looking at an
+
+346
+00:13:29,810 --> 00:13:35,480
+image or a video or a paragraph and
+
+347
+00:13:33,580 --> 00:13:37,310
+summarizing what it means to a human
+
+348
+00:13:35,480 --> 00:13:39,410
+being saying you know this paragraph
+
+349
+00:13:37,310 --> 00:13:42,140
+contains positive sentiment or negative
+
+350
+00:13:39,410 --> 00:13:44,390
+sentiment or this photo contains an
+
+351
+00:13:42,140 --> 00:13:46,340
+airplane those involved really
+
+352
+00:13:44,390 --> 00:13:48,050
+complicated mappings from individual
+
+353
+00:13:46,339 --> 00:13:50,299
+pixels or individual characters or
+
+354
+00:13:48,050 --> 00:13:54,920
+individual words to very high-level
+
+355
+00:13:50,300 --> 00:13:56,720
+abstract ideas but if your system has a
+
+356
+00:13:54,920 --> 00:13:58,490
+lot of noise and very little structure
+
+357
+00:13:56,720 --> 00:14:01,970
+and you're just saying something like
+
+358
+00:13:58,490 --> 00:14:04,070
+here is a house and I'm telling you how
+
+359
+00:14:01,970 --> 00:14:06,980
+many square feet it has please tell me
+
+360
+00:14:04,070 --> 00:14:08,930
+how much it costs then there aren't very
+
+361
+00:14:06,980 --> 00:14:10,220
+many different variables there the
+
+362
+00:14:08,930 --> 00:14:11,720
+relationship between them is not very
+
+363
+00:14:10,220 --> 00:14:15,860
+complicated you can solve that with a
+
+364
+00:14:11,720 --> 00:14:17,930
+much simpler machine learning system the
+
+365
+00:14:15,860 --> 00:14:19,310
+best shallow baseline to use in one of
+
+366
+00:14:17,930 --> 00:14:23,210
+these high noise low structure
+
+367
+00:14:19,310 --> 00:14:25,520
+situations is to use the system that
+
+368
+00:14:23,210 --> 00:14:27,560
+you're most familiar with a lot of
+
+369
+00:14:25,520 --> 00:14:29,560
+people will debate endlessly which
+
+370
+00:14:27,560 --> 00:14:32,210
+machine learning algorithm is the best
+
+371
+00:14:29,560 --> 00:14:33,740
+but there are theorems out there that to
+
+372
+00:14:32,209 --> 00:14:36,079
+actually tell you that there is no best
+
+373
+00:14:33,740 --> 00:14:37,520
+machine learning algorithm usually
+
+374
+00:14:36,080 --> 00:14:38,570
+you're going to perform the best if you
+
+375
+00:14:37,520 --> 00:14:40,880
+use something that you're comfortable
+
+376
+00:14:38,570 --> 00:14:42,380
+with and that you understand if you
+
+377
+00:14:40,880 --> 00:14:44,120
+understand logistic regression really
+
+378
+00:14:42,380 --> 00:14:46,640
+well and you know how to tweak it then
+
+379
+00:14:44,120 --> 00:14:48,620
+use logistic regression if you tweak
+
+380
+00:14:46,640 --> 00:14:50,630
+logistic regression effectively you will
+
+381
+00:14:48,620 --> 00:14:55,670
+do much better than if you use an SVM
+
+382
+00:14:50,630 --> 00:14:57,560
+and don't tweak it well also the same
+
+383
+00:14:55,670 --> 00:14:58,910
+the same applies in Reverse if you're
+
+384
+00:14:57,560 --> 00:15:00,260
+familiar with support vector machines
+
+385
+00:14:58,910 --> 00:15:02,690
+and you think you understand how to
+
+386
+00:15:00,260 --> 00:15:06,200
+tweak those then by all means begin to
+
+387
+00:15:02,690 --> 00:15:08,300
+support vector machines before about
+
+388
+00:15:06,200 --> 00:15:10,910
+2013 before deep learning became really
+
+389
+00:15:08,300 --> 00:15:13,130
+effective boosted decision trees were
+
+390
+00:15:10,910 --> 00:15:14,930
+one of my favorite default algorithms if
+
+391
+00:15:13,130 --> 00:15:17,360
+you have a good implementation of those
+
+392
+00:15:14,930 --> 00:15:19,280
+and you feel comfortable using them then
+
+393
+00:15:17,360 --> 00:15:22,340
+they're a really good baseline in a lot
+
+394
+00:15:19,279 --> 00:15:25,759
+of cases and I successfully use those
+
+395
+00:15:22,339 --> 00:15:28,209
+for a lot of robotics problems okay so
+
+396
+00:15:25,760 --> 00:15:30,590
+suppose that you have a very complicated
+
+397
+00:15:28,209 --> 00:15:32,929
+problem and you have enough data to fit
+
+398
+00:15:30,589 --> 00:15:34,459
+it in that case then you want to go
+
+399
+00:15:32,930 --> 00:15:36,050
+ahead and use deep learning
+
+400
+00:15:34,460 --> 00:15:39,920
+so what deep learning model should you
+
+401
+00:15:36,050 --> 00:15:41,360
+use the basic way that you decide what
+
+402
+00:15:39,920 --> 00:15:43,550
+kind of deep learning model to use is
+
+403
+00:15:41,360 --> 00:15:44,840
+well first as I said on the earlier
+
+404
+00:15:43,550 --> 00:15:46,490
+slide if there's already a published
+
+405
+00:15:44,839 --> 00:15:48,199
+baseline that works well in this task
+
+406
+00:15:46,490 --> 00:15:50,150
+then just copy the architecture from the
+
+407
+00:15:48,200 --> 00:15:51,950
+published baseline but if you're working
+
+408
+00:15:50,149 --> 00:15:53,559
+on a totally new problem and you need to
+
+409
+00:15:51,950 --> 00:15:56,300
+make your own decision about what to use
+
+410
+00:15:53,560 --> 00:15:57,890
+the main way you decide is you look at
+
+411
+00:15:56,300 --> 00:16:00,470
+what kind of structure there is in the
+
+412
+00:15:57,890 --> 00:16:02,420
+data some data doesn't really have any
+
+413
+00:16:00,470 --> 00:16:06,020
+structure at all it's just a list of
+
+414
+00:16:02,420 --> 00:16:07,970
+measurements and you just in this case
+
+415
+00:16:06,020 --> 00:16:10,550
+you could just apply a fully connected
+
+416
+00:16:07,970 --> 00:16:11,930
+neural network to it there's no special
+
+417
+00:16:10,550 --> 00:16:14,930
+structure in the neural network at all
+
+418
+00:16:11,930 --> 00:16:18,320
+it's just completely specified matrices
+
+419
+00:16:14,930 --> 00:16:20,690
+at every level a lot of tasks have
+
+420
+00:16:18,320 --> 00:16:26,120
+spatial structure to them this is things
+
+421
+00:16:20,690 --> 00:16:29,000
+like images or videos or data based on
+
+422
+00:16:26,120 --> 00:16:31,580
+on maps or any kind of thing we have
+
+423
+00:16:29,000 --> 00:16:33,550
+sensors aligned on a grid in that case
+
+424
+00:16:31,580 --> 00:16:35,450
+you can use a convolutional network a
+
+425
+00:16:33,550 --> 00:16:36,770
+convolutional network is a kind of
+
+426
+00:16:35,450 --> 00:16:39,140
+neural network that says it's going to
+
+427
+00:16:36,770 --> 00:16:41,510
+apply the same little function at every
+
+428
+00:16:39,140 --> 00:16:43,370
+different point in space and if you
+
+429
+00:16:41,510 --> 00:16:44,450
+learn that one little function really
+
+430
+00:16:43,370 --> 00:16:46,160
+well then you can apply it everywhere
+
+431
+00:16:44,450 --> 00:16:50,390
+you don't need to independently relearn
+
+432
+00:16:46,160 --> 00:16:52,940
+it at every location in the grid finally
+
+433
+00:16:50,390 --> 00:16:54,710
+if you have a kind of data that has
+
+434
+00:16:52,940 --> 00:16:57,200
+sequential structure to it then you want
+
+435
+00:16:54,709 --> 00:16:58,909
+to use a recurrent neural network this
+
+436
+00:16:57,200 --> 00:17:00,650
+is if you have something like text where
+
+437
+00:16:58,910 --> 00:17:02,270
+you want to read a long sentence and
+
+438
+00:17:00,650 --> 00:17:03,530
+then at the very end you're going to be
+
+439
+00:17:02,270 --> 00:17:05,750
+asked a question about it
+
+440
+00:17:03,529 --> 00:17:07,759
+so at the end of the sentence you need
+
+441
+00:17:05,750 --> 00:17:10,220
+to remember something from very early at
+
+442
+00:17:07,760 --> 00:17:11,210
+the start of the sentence you might
+
+443
+00:17:10,220 --> 00:17:13,160
+notice that there's a little bit of
+
+444
+00:17:11,209 --> 00:17:14,719
+overlap between sequential and spatial
+
+445
+00:17:13,160 --> 00:17:16,850
+structure you can kind of think of time
+
+446
+00:17:14,720 --> 00:17:18,110
+and space as interchangeable so there is
+
+447
+00:17:16,850 --> 00:17:19,310
+a little bit of a judgement call of it
+
+448
+00:17:18,110 --> 00:17:21,830
+whether you want to use convolutional
+
+449
+00:17:19,309 --> 00:17:26,539
+orbit current networks in some sense
+
+450
+00:17:21,829 --> 00:17:27,889
+they are similar things I in recurrent
+
+451
+00:17:26,540 --> 00:17:30,530
+networks kind of imply that you are
+
+452
+00:17:27,890 --> 00:17:32,690
+convolving over time but that's that's
+
+453
+00:17:30,530 --> 00:17:35,480
+maybe a little bit more advanced than I
+
+454
+00:17:32,690 --> 00:17:36,590
+need to get into right now you could do
+
+455
+00:17:35,480 --> 00:17:38,030
+reasonably well with the choice of
+
+456
+00:17:36,590 --> 00:17:40,190
+either a convolutional or a recurrent
+
+457
+00:17:38,030 --> 00:17:44,060
+Network any time that you have this kind
+
+458
+00:17:40,190 --> 00:17:45,140
+of structure available okay so
+
+459
+00:17:44,060 --> 00:17:47,390
+you've decided that you want to use a
+
+460
+00:17:45,140 --> 00:17:49,300
+fully connected neural network to solve
+
+461
+00:17:47,390 --> 00:17:52,430
+some kind of unstructured data
+
+462
+00:17:49,300 --> 00:17:56,390
+processing task what's a good baseline
+
+463
+00:17:52,430 --> 00:17:58,220
+for that situation as of 2015 I would
+
+464
+00:17:56,390 --> 00:17:59,870
+say that the best baseline to start with
+
+465
+00:17:58,220 --> 00:18:01,970
+the one that's really easy to implement
+
+466
+00:17:59,870 --> 00:18:04,760
+and works well in a wide variety of
+
+467
+00:18:01,970 --> 00:18:07,100
+settings is the two to three hidden
+
+468
+00:18:04,760 --> 00:18:09,200
+layer feed-forward neural network these
+
+469
+00:18:07,100 --> 00:18:11,570
+are also called multi-layer perceptrons
+
+470
+00:18:09,200 --> 00:18:13,160
+and you can go ahead and add more hidden
+
+471
+00:18:11,570 --> 00:18:15,290
+layers later if you decide that they're
+
+472
+00:18:13,160 --> 00:18:18,380
+they're needed but to begin with just
+
+473
+00:18:15,290 --> 00:18:20,690
+try two three maybe even just one hidden
+
+474
+00:18:18,380 --> 00:18:23,770
+layer you definitely want to use
+
+475
+00:18:20,690 --> 00:18:27,070
+rectified linear units as your baseline
+
+476
+00:18:23,770 --> 00:18:30,440
+don't use sigmoids sigmoids are
+
+477
+00:18:27,070 --> 00:18:33,650
+considered out-of-date now and rectified
+
+478
+00:18:30,440 --> 00:18:36,170
+linear units are far easier to use you
+
+479
+00:18:33,650 --> 00:18:38,090
+also probably want to use dropout
+
+480
+00:18:36,170 --> 00:18:41,090
+geoffery Hinton's regularization
+
+481
+00:18:38,090 --> 00:18:43,880
+strategy where you randomly mask out
+
+482
+00:18:41,090 --> 00:18:47,090
+half of the units on every step of
+
+483
+00:18:43,880 --> 00:18:48,470
+training to train the neural network you
+
+484
+00:18:47,090 --> 00:18:52,220
+want to use stochastic gradient descent
+
+485
+00:18:48,470 --> 00:18:54,620
+and momentum this technique is really
+
+486
+00:18:52,220 --> 00:18:56,120
+effective it works very well as long as
+
+487
+00:18:54,620 --> 00:18:58,130
+you have a few thousand examples per
+
+488
+00:18:56,120 --> 00:19:00,410
+class and it's been applied to
+
+489
+00:18:58,130 --> 00:19:02,990
+everything from speech to vision to
+
+490
+00:19:00,410 --> 00:19:05,330
+natural language processing it's it's
+
+491
+00:19:02,990 --> 00:19:07,070
+really the standard engine that drives
+
+492
+00:19:05,330 --> 00:19:09,650
+pretty much everything in defining right
+
+493
+00:19:07,070 --> 00:19:11,690
+now part of the reason I'm doing this
+
+494
+00:19:09,650 --> 00:19:14,030
+talk and highlighting this as an example
+
+495
+00:19:11,690 --> 00:19:16,700
+of a great baseline for right now is
+
+496
+00:19:14,030 --> 00:19:19,160
+that it can be hard to sift through the
+
+497
+00:19:16,700 --> 00:19:21,770
+literature and determine what the latest
+
+498
+00:19:19,160 --> 00:19:23,030
+advice is so a lot of people are first
+
+499
+00:19:21,770 --> 00:19:24,740
+getting into deep learning read that
+
+500
+00:19:23,030 --> 00:19:26,450
+deep learning is all about deep belief
+
+501
+00:19:24,740 --> 00:19:28,730
+networks and deep bolts and machines and
+
+502
+00:19:26,450 --> 00:19:32,270
+so on or auto-encoders
+
+503
+00:19:28,730 --> 00:19:35,060
+I don't really recommend those methods
+
+504
+00:19:32,270 --> 00:19:38,090
+right now those were performing very
+
+505
+00:19:35,060 --> 00:19:39,830
+well from about 2006 to 2012 but they're
+
+506
+00:19:38,090 --> 00:19:41,720
+complicated and difficult to make work
+
+507
+00:19:39,830 --> 00:19:45,290
+you need to understand a lot more ideas
+
+508
+00:19:41,720 --> 00:19:48,290
+to get them to work well and these days
+
+509
+00:19:45,290 --> 00:19:51,430
+there are very few tasks where they're
+
+510
+00:19:48,290 --> 00:19:54,180
+actually the state-of-the-art anymore
+
+511
+00:19:51,430 --> 00:19:55,650
+unless you know for a fact
+
+512
+00:19:54,180 --> 00:19:57,060
+something like auto-encoders is
+
+513
+00:19:55,650 --> 00:19:58,560
+necessary to perform well on the
+
+514
+00:19:57,060 --> 00:20:00,260
+application you're working on you
+
+515
+00:19:58,560 --> 00:20:02,490
+probably want to default to this
+
+516
+00:20:00,260 --> 00:20:06,000
+backpropagation based rectified linear
+
+517
+00:20:02,490 --> 00:20:07,440
+network so that's what you do if your
+
+518
+00:20:06,000 --> 00:20:11,430
+data doesn't have any particular
+
+519
+00:20:07,440 --> 00:20:12,540
+structure to it if your data has image
+
+520
+00:20:11,430 --> 00:20:14,880
+structure then you want to use a
+
+521
+00:20:12,540 --> 00:20:16,410
+convolutional network so I also have
+
+522
+00:20:14,880 --> 00:20:17,220
+some pretty strong recommendations for
+
+523
+00:20:16,410 --> 00:20:20,040
+what to use if you're in the
+
+524
+00:20:17,220 --> 00:20:21,990
+convolutional setting if you're able to
+
+525
+00:20:20,040 --> 00:20:24,200
+do it I suggest using an inception
+
+526
+00:20:21,990 --> 00:20:26,340
+Network trade with batch normalization
+
+527
+00:20:24,200 --> 00:20:28,200
+you'll read a lot of papers out there
+
+528
+00:20:26,340 --> 00:20:30,030
+about all these different tricks to
+
+529
+00:20:28,200 --> 00:20:34,130
+train very deep convolutional networks
+
+530
+00:20:30,030 --> 00:20:36,690
+and in a lot of cases it turns out that
+
+531
+00:20:34,130 --> 00:20:38,520
+you can actually train as deep of a
+
+532
+00:20:36,690 --> 00:20:41,550
+network as you want just by using this
+
+533
+00:20:38,520 --> 00:20:43,260
+batch normalization algorithm that was
+
+534
+00:20:41,550 --> 00:20:46,410
+released by my colleagues at Google
+
+535
+00:20:43,260 --> 00:20:47,880
+earlier this year inception and batch
+
+536
+00:20:46,410 --> 00:20:50,940
+normalization are somewhat complicated
+
+537
+00:20:47,880 --> 00:20:53,370
+and not every library offers these kinds
+
+538
+00:20:50,940 --> 00:20:55,710
+of networks so if you're using a library
+
+539
+00:20:53,370 --> 00:20:58,140
+that doesn't support for example the
+
+540
+00:20:55,710 --> 00:21:00,570
+inception Network you can fall back to a
+
+541
+00:20:58,140 --> 00:21:02,460
+simpler convolutional Network once again
+
+542
+00:21:00,570 --> 00:21:04,620
+I recommend using rectified linear units
+
+543
+00:21:02,460 --> 00:21:06,750
+the same as in the feed-forward Network
+
+544
+00:21:04,620 --> 00:21:08,850
+case so just use a convolutional net
+
+545
+00:21:06,750 --> 00:21:11,310
+work with rectified linear units regular
+
+546
+00:21:08,850 --> 00:21:14,000
+as it with dropout and train with
+
+547
+00:21:11,310 --> 00:21:17,850
+stochastic gradient descent in momentum
+
+548
+00:21:14,000 --> 00:21:20,400
+alright finally if you have a task with
+
+549
+00:21:17,850 --> 00:21:23,730
+sequential structure then you can use a
+
+550
+00:21:20,400 --> 00:21:25,860
+recurrent Network in this case the
+
+551
+00:21:23,730 --> 00:21:28,560
+standard baseline I recommend is the LST
+
+552
+00:21:25,860 --> 00:21:33,030
+M developed by step lock writer and your
+
+553
+00:21:28,560 --> 00:21:34,350
+instrument youever um oh yeah I see
+
+554
+00:21:33,030 --> 00:21:36,690
+somebody's asking about unsupervised
+
+555
+00:21:34,350 --> 00:21:39,480
+learning if if your task really is
+
+556
+00:21:36,690 --> 00:21:41,850
+unsupervised like if your final goal is
+
+557
+00:21:39,480 --> 00:21:42,900
+not to do classification then go ahead
+
+558
+00:21:41,850 --> 00:21:46,200
+and use an unsupervised learning
+
+559
+00:21:42,900 --> 00:21:48,210
+algorithm um it depends which kind of
+
+560
+00:21:46,200 --> 00:21:49,410
+unsupervised task you want to solve if
+
+561
+00:21:48,210 --> 00:21:50,760
+you're if you're doing something like
+
+562
+00:21:49,410 --> 00:21:52,530
+denoising then use a denoising
+
+563
+00:21:50,760 --> 00:21:54,960
+auto-encoder if you're doing something
+
+564
+00:21:52,530 --> 00:21:55,920
+like generating new samples then you
+
+565
+00:21:54,960 --> 00:21:58,530
+might want to use a generative
+
+566
+00:21:55,920 --> 00:22:02,310
+adversarial network or a variational
+
+567
+00:21:58,530 --> 00:22:02,760
+auto encoder um let me read the
+
+568
+00:22:02,310 --> 00:22:05,910
+follow-up
+
+569
+00:22:02,760 --> 00:22:07,400
+oh yeah hidden Markov models hidden
+
+570
+00:22:05,910 --> 00:22:09,950
+Markov models are
+
+571
+00:22:07,399 --> 00:22:11,839
+perfectly fine as long as you don't need
+
+572
+00:22:09,950 --> 00:22:13,810
+the hidden state variable to be
+
+573
+00:22:11,839 --> 00:22:16,369
+complicated in high dimensional if
+
+574
+00:22:13,809 --> 00:22:17,719
+there's a very high dimensional hidden
+
+575
+00:22:16,369 --> 00:22:20,139
+state than hidden Markov models don't
+
+576
+00:22:17,719 --> 00:22:22,429
+scale as well as recurrent Nets
+
+577
+00:22:20,139 --> 00:22:25,249
+okay so popping back to the recurrent
+
+578
+00:22:22,429 --> 00:22:27,619
+Network situation I would recommend the
+
+579
+00:22:25,249 --> 00:22:30,829
+LST M as the default model that people
+
+580
+00:22:27,619 --> 00:22:35,449
+use when tackling a complicated AI
+
+581
+00:22:30,830 --> 00:22:36,470
+complete sequence modeling task you can
+
+582
+00:22:35,450 --> 00:22:39,530
+train this in stochastic gradient
+
+583
+00:22:36,469 --> 00:22:40,789
+descent I've heard a lot of people say
+
+584
+00:22:39,529 --> 00:22:44,359
+that you don't even need to use momentum
+
+585
+00:22:40,789 --> 00:22:46,129
+in this case the LST M already makes it
+
+586
+00:22:44,359 --> 00:22:48,439
+easy enough to optimize that you don't
+
+587
+00:22:46,129 --> 00:22:50,629
+need that extra step but momentum is
+
+588
+00:22:48,440 --> 00:22:52,100
+usually helpful one thing that's really
+
+589
+00:22:50,629 --> 00:22:54,199
+important when training any kind of
+
+590
+00:22:52,099 --> 00:22:57,529
+recurrent network is to apply gradient
+
+591
+00:22:54,200 --> 00:22:59,360
+clipping that means that during back
+
+592
+00:22:57,529 --> 00:23:01,549
+propagation as the gradient flows
+
+593
+00:22:59,359 --> 00:23:04,039
+backward through the network you impose
+
+594
+00:23:01,549 --> 00:23:06,109
+some maximum size on the gradient and if
+
+595
+00:23:04,039 --> 00:23:08,779
+the true gradient exceeds that sides you
+
+596
+00:23:06,109 --> 00:23:10,009
+just you clip it to be smaller than then
+
+597
+00:23:08,779 --> 00:23:12,289
+what the math actually says it should be
+
+598
+00:23:10,009 --> 00:23:13,729
+the reason for this is that when you
+
+599
+00:23:12,289 --> 00:23:16,579
+propagate backward through several
+
+600
+00:23:13,729 --> 00:23:19,309
+hundred steps in an LST M it can make
+
+601
+00:23:16,580 --> 00:23:21,290
+the gradient become quite large and a
+
+602
+00:23:19,309 --> 00:23:22,789
+very large gradient can actually do a
+
+603
+00:23:21,289 --> 00:23:26,389
+lot of damage if you take a gigantic
+
+604
+00:23:22,789 --> 00:23:27,769
+gradient step so just by just by
+
+605
+00:23:26,389 --> 00:23:33,079
+clipping it you can avoid that
+
+606
+00:23:27,769 --> 00:23:34,519
+instability problem so I see there's a
+
+607
+00:23:33,080 --> 00:23:36,260
+question about whether google has any
+
+608
+00:23:34,519 --> 00:23:39,379
+new methods to parallelize llst m as
+
+609
+00:23:36,259 --> 00:23:42,439
+well I don't actually know anything
+
+610
+00:23:39,379 --> 00:23:44,239
+about the pyramid lsdm myself so one
+
+611
+00:23:42,440 --> 00:23:45,800
+thing is at Google we do train a lot of
+
+612
+00:23:44,239 --> 00:23:48,679
+things using asynchronous gradient
+
+613
+00:23:45,799 --> 00:23:51,619
+descent where we just train many copies
+
+614
+00:23:48,679 --> 00:23:54,769
+of the LST m simultaneously that's using
+
+615
+00:23:51,619 --> 00:23:55,999
+our internal disbelief library um that's
+
+616
+00:23:54,769 --> 00:23:58,479
+not really something that people outside
+
+617
+00:23:55,999 --> 00:24:01,999
+can just grab and use but there are
+
+618
+00:23:58,479 --> 00:24:06,859
+other multi replicas learning strategies
+
+619
+00:24:01,999 --> 00:24:08,329
+that have been made public one last
+
+620
+00:24:06,859 --> 00:24:10,659
+trick that you should probably use in
+
+621
+00:24:08,330 --> 00:24:13,460
+your baseline for a recurrent Network is
+
+622
+00:24:10,659 --> 00:24:15,949
+setting the forget but get the forget
+
+623
+00:24:13,460 --> 00:24:17,360
+gate bias to be high that makes it so
+
+624
+00:24:15,950 --> 00:24:19,400
+that the forget good of the LS TM
+
+625
+00:24:17,359 --> 00:24:21,229
+initially says not to forget anything
+
+626
+00:24:19,399 --> 00:24:22,309
+and that helps to make sure
+
+627
+00:24:21,230 --> 00:24:28,670
+that information flows through the
+
+628
+00:24:22,309 --> 00:24:31,939
+network originally all right so stage 3
+
+629
+00:24:28,669 --> 00:24:34,369
+of this methodology pipeline is to do a
+
+630
+00:24:31,940 --> 00:24:36,560
+data driven adaptation after you've got
+
+631
+00:24:34,370 --> 00:24:39,680
+your baseline in pit in place you choose
+
+632
+00:24:36,559 --> 00:24:41,569
+what to do next based on data I'm an
+
+633
+00:24:39,679 --> 00:24:43,759
+important thing in this step is to not
+
+634
+00:24:41,570 --> 00:24:46,430
+believe hype about different kinds of
+
+635
+00:24:43,760 --> 00:24:47,840
+algorithms out there every week there
+
+636
+00:24:46,429 --> 00:24:50,029
+are dozens of papers appearing in
+
+637
+00:24:47,840 --> 00:24:55,360
+archives saying you know we have this
+
+638
+00:24:50,030 --> 00:24:58,940
+new like lingerie in Bayesian
+
+639
+00:24:55,360 --> 00:25:02,120
+variational variant of this algorithm
+
+640
+00:24:58,940 --> 00:25:03,520
+you're already using and if you use this
+
+641
+00:25:02,120 --> 00:25:06,050
+it's going to be a million times better
+
+642
+00:25:03,520 --> 00:25:08,120
+most of the time most of these papers
+
+643
+00:25:06,049 --> 00:25:10,579
+are just one author trying to get
+
+644
+00:25:08,120 --> 00:25:13,070
+attention for their own method and try
+
+645
+00:25:10,580 --> 00:25:14,630
+to build their resume it takes quite a
+
+646
+00:25:13,070 --> 00:25:16,280
+long time for an algorithm to get
+
+647
+00:25:14,630 --> 00:25:18,740
+established and for you to really know
+
+648
+00:25:16,280 --> 00:25:20,660
+that it's trustworthy so filter out a
+
+649
+00:25:18,740 --> 00:25:22,310
+bit of the noise try to take a bit of a
+
+650
+00:25:20,660 --> 00:25:24,620
+conservative approach to what algorithm
+
+651
+00:25:22,309 --> 00:25:26,209
+to use and expect most of the benefit
+
+652
+00:25:24,620 --> 00:25:29,600
+you get from doing very bread-and-butter
+
+653
+00:25:26,210 --> 00:25:30,890
+stuff where you adapt the settings for
+
+654
+00:25:29,600 --> 00:25:34,340
+the algorithm you're already using or
+
+655
+00:25:30,890 --> 00:25:35,870
+you gather more data and when you do
+
+656
+00:25:34,340 --> 00:25:37,190
+change from one algorithm to another it
+
+657
+00:25:35,870 --> 00:25:38,900
+shouldn't be just because you've read
+
+658
+00:25:37,190 --> 00:25:40,850
+that some tool is the hottest new thing
+
+659
+00:25:38,900 --> 00:25:43,280
+it should be because you've used a
+
+660
+00:25:40,850 --> 00:25:45,950
+metric to figure out what the best next
+
+661
+00:25:43,280 --> 00:25:47,690
+step should be the most important
+
+662
+00:25:45,950 --> 00:25:49,430
+metrics are the training error and the
+
+663
+00:25:47,690 --> 00:25:50,720
+tester you measure how well you're doing
+
+664
+00:25:49,429 --> 00:25:51,939
+on the training set and you measure how
+
+665
+00:25:50,720 --> 00:25:54,050
+well you're doing on the test set if
+
+666
+00:25:51,940 --> 00:25:56,320
+you're not doing well enough on the
+
+667
+00:25:54,049 --> 00:25:59,479
+train set then you're under fitting and
+
+668
+00:25:56,320 --> 00:26:02,690
+if you're not doing well on the test set
+
+669
+00:25:59,480 --> 00:26:04,160
+then you're overfitting so I'll talk a
+
+670
+00:26:02,690 --> 00:26:06,800
+little bit about how to address each of
+
+671
+00:26:04,160 --> 00:26:08,720
+these problems if you have high training
+
+672
+00:26:06,799 --> 00:26:11,569
+error there's a few different steps you
+
+673
+00:26:08,720 --> 00:26:13,130
+should take I'm most most textbook
+
+674
+00:26:11,570 --> 00:26:14,540
+advice will immediately start telling
+
+675
+00:26:13,130 --> 00:26:16,310
+you how to do things to your machine
+
+676
+00:26:14,540 --> 00:26:17,930
+learning model but I actually say the
+
+677
+00:26:16,309 --> 00:26:20,389
+very first thing you should do is check
+
+678
+00:26:17,929 --> 00:26:22,099
+whether your data has a problem make
+
+679
+00:26:20,390 --> 00:26:22,970
+sure that hasn't been collected poorly
+
+680
+00:26:22,100 --> 00:26:25,430
+or something like that
+
+681
+00:26:22,970 --> 00:26:28,460
+if the data has defects then your
+
+682
+00:26:25,429 --> 00:26:29,299
+algorithm won't be able to fit it next
+
+683
+00:26:28,460 --> 00:26:31,910
+you should actually inspect your
+
+684
+00:26:29,299 --> 00:26:33,649
+software for defects and specifically
+
+685
+00:26:31,909 --> 00:26:35,149
+I'd say don't make your own software
+
+686
+00:26:33,650 --> 00:26:38,810
+unless you definitely know
+
+687
+00:26:35,149 --> 00:26:41,689
+you're doing using other established
+
+688
+00:26:38,809 --> 00:26:43,639
+software that's been tested and improved
+
+689
+00:26:41,690 --> 00:26:45,620
+by many people is a good way of being
+
+690
+00:26:43,639 --> 00:26:48,979
+relatively confident that your high
+
+691
+00:26:45,619 --> 00:26:50,239
+training or doesn't come from a bug once
+
+692
+00:26:48,979 --> 00:26:52,519
+you're sure that both the data and the
+
+693
+00:26:50,239 --> 00:26:55,009
+algorithm are correctly gathered and
+
+694
+00:26:52,519 --> 00:26:57,229
+correctly implemented you can begin to
+
+695
+00:26:55,009 --> 00:26:58,879
+address high training error by adapting
+
+696
+00:26:57,229 --> 00:27:00,559
+the learning rate and adapting the other
+
+697
+00:26:58,879 --> 00:27:03,739
+settings that affect the optimization
+
+698
+00:27:00,559 --> 00:27:05,299
+procedure you can also make your model
+
+699
+00:27:03,739 --> 00:27:07,639
+bigger so that it can fit a larger
+
+700
+00:27:05,299 --> 00:27:10,369
+training set I'll give you a few
+
+701
+00:27:07,639 --> 00:27:12,499
+examples of each of these things here so
+
+702
+00:27:10,369 --> 00:27:14,119
+for the Street View transcriber one of
+
+703
+00:27:12,499 --> 00:27:15,679
+the biggest things we did was we changed
+
+704
+00:27:14,119 --> 00:27:18,649
+the way that we cropped the photos that
+
+705
+00:27:15,679 --> 00:27:20,959
+were provided to the system after we had
+
+706
+00:27:18,649 --> 00:27:22,609
+built our baseline we started looking at
+
+707
+00:27:20,960 --> 00:27:25,010
+which examples it was getting run over
+
+708
+00:27:22,609 --> 00:27:27,529
+here on the left here's an example of a
+
+709
+00:27:25,009 --> 00:27:29,899
+kind of mistake that it was making we
+
+710
+00:27:27,529 --> 00:27:32,419
+would see these photos that say six six
+
+711
+00:27:29,899 --> 00:27:34,939
+two four and the correct answer is two
+
+712
+00:27:32,419 --> 00:27:36,739
+six six two four so we realized that our
+
+713
+00:27:34,940 --> 00:27:39,140
+automatic cropping system was actually
+
+714
+00:27:36,739 --> 00:27:40,849
+cropping a little bit too tight we
+
+715
+00:27:39,139 --> 00:27:43,579
+solved that just by telling it to make
+
+716
+00:27:40,849 --> 00:27:45,259
+whiter crops and now you can actually
+
+717
+00:27:43,580 --> 00:27:47,390
+see the complete digit the complete
+
+718
+00:27:45,259 --> 00:27:50,119
+address number so this is a really
+
+719
+00:27:47,389 --> 00:27:51,919
+simple and dumb mistake and it's very
+
+720
+00:27:50,119 --> 00:27:53,029
+simple to fix it doesn't require any
+
+721
+00:27:51,919 --> 00:27:54,559
+real knowledge of machine learning to
+
+722
+00:27:53,029 --> 00:27:57,139
+fix all we did was look at what mistakes
+
+723
+00:27:54,559 --> 00:27:58,699
+were happening and then try to
+
+724
+00:27:57,139 --> 00:28:02,149
+categorize them and figure out what the
+
+725
+00:27:58,700 --> 00:28:04,070
+largest bottleneck was so that was our
+
+726
+00:28:02,149 --> 00:28:06,019
+biggest change that we did in terms of
+
+727
+00:28:04,070 --> 00:28:07,400
+how much it improved our performance was
+
+728
+00:28:06,019 --> 00:28:09,769
+we found that sometimes the crop was too
+
+729
+00:28:07,399 --> 00:28:11,989
+tight and we were misclassifying
+
+730
+00:28:09,769 --> 00:28:13,369
+examples because of the crop our biggest
+
+731
+00:28:11,989 --> 00:28:15,699
+change during the development of the
+
+732
+00:28:13,369 --> 00:28:17,509
+pipeline was not to change algorithms
+
+733
+00:28:15,700 --> 00:28:18,970
+introduced unsupervised learning
+
+734
+00:28:17,509 --> 00:28:21,049
+anything like that it was just to
+
+735
+00:28:18,969 --> 00:28:22,069
+measure where the mistakes were
+
+736
+00:28:21,049 --> 00:28:26,509
+happening and make a very simple
+
+737
+00:28:22,070 --> 00:28:28,460
+common-sense change you can also fit the
+
+738
+00:28:26,509 --> 00:28:30,559
+training set better by increasing the
+
+739
+00:28:28,460 --> 00:28:32,630
+size of the model here we have a graph
+
+740
+00:28:30,559 --> 00:28:34,849
+of how our important our performance
+
+741
+00:28:32,629 --> 00:28:37,279
+improved as we added more layers to this
+
+742
+00:28:34,849 --> 00:28:38,749
+tree tree transcription system this is
+
+743
+00:28:37,279 --> 00:28:40,789
+pretty simple we just kept adding more
+
+744
+00:28:38,749 --> 00:28:43,429
+hidden layers and the performance kept
+
+745
+00:28:40,789 --> 00:28:45,439
+going up a lot of the time if you have a
+
+746
+00:28:43,429 --> 00:28:46,999
+lot of data you'll find that you can
+
+747
+00:28:45,440 --> 00:28:48,480
+keep making the model bigger and bigger
+
+748
+00:28:46,999 --> 00:28:50,219
+and you always see an improved
+
+749
+00:28:48,480 --> 00:28:51,420
+a lot of the time you'll end up finding
+
+750
+00:28:50,220 --> 00:28:52,860
+that your performance is limited by the
+
+751
+00:28:51,419 --> 00:28:56,759
+size of the model that you're able to
+
+752
+00:28:52,860 --> 00:28:58,980
+afford to run okay so that's what you do
+
+753
+00:28:56,760 --> 00:29:01,680
+if you have high training center what if
+
+754
+00:28:58,980 --> 00:29:03,780
+you have high test set error one thing
+
+755
+00:29:01,679 --> 00:29:06,659
+you can do is you can dupe data set
+
+756
+00:29:03,780 --> 00:29:08,370
+augmentation where you make multiple
+
+757
+00:29:06,660 --> 00:29:11,700
+copies of your training examples
+
+758
+00:29:08,370 --> 00:29:13,080
+transformed in different ways that's a
+
+759
+00:29:11,700 --> 00:29:15,630
+relatively cheap way of getting more
+
+760
+00:29:13,080 --> 00:29:18,000
+data you can also just pay to get more
+
+761
+00:29:15,630 --> 00:29:19,740
+data if you aren't using a
+
+762
+00:29:18,000 --> 00:29:21,720
+regularization strategy like drop out
+
+763
+00:29:19,740 --> 00:29:23,580
+already then you can add drop out and
+
+764
+00:29:21,720 --> 00:29:27,240
+hope that it that reduces your test set
+
+765
+00:29:23,580 --> 00:29:28,710
+error so here's a graph of what happens
+
+766
+00:29:27,240 --> 00:29:31,590
+as you increase your training set size
+
+767
+00:29:28,710 --> 00:29:33,630
+on the right I'm plotting the optimal
+
+768
+00:29:31,590 --> 00:29:35,040
+size of the model so as you get more and
+
+769
+00:29:33,630 --> 00:29:36,450
+more training examples you'll need to
+
+770
+00:29:35,040 --> 00:29:39,210
+you'll need to use larger and larger
+
+771
+00:29:36,450 --> 00:29:41,190
+models on the left I'm showing a few
+
+772
+00:29:39,210 --> 00:29:42,960
+different things that happen one of
+
+773
+00:29:41,190 --> 00:29:45,240
+these is the training set error the
+
+774
+00:29:42,960 --> 00:29:46,920
+optimal model size most of the time in
+
+775
+00:29:45,240 --> 00:29:49,170
+deep learning your optimal model is
+
+776
+00:29:46,919 --> 00:29:50,849
+going to get zero training error and the
+
+777
+00:29:49,169 --> 00:29:53,579
+question is just how badly does Nover
+
+778
+00:29:50,850 --> 00:29:56,400
+fit what is the gap between train and
+
+779
+00:29:53,580 --> 00:30:00,660
+test performance you'll see that test
+
+780
+00:29:56,400 --> 00:30:01,860
+performance drops over time as the
+
+781
+00:30:00,660 --> 00:30:05,430
+training number of training examples
+
+782
+00:30:01,860 --> 00:30:07,110
+increases so a lot of the time the size
+
+783
+00:30:05,429 --> 00:30:10,229
+of your data set is the most important
+
+784
+00:30:07,110 --> 00:30:11,820
+factor driving your success so that's
+
+785
+00:30:10,230 --> 00:30:14,190
+the end of my talk if you'd like more
+
+786
+00:30:11,820 --> 00:30:15,780
+information feel free to look at the
+
+787
+00:30:14,190 --> 00:30:17,610
+deep learning textbook that I'm writing
+
+788
+00:30:15,780 --> 00:30:20,930
+along with Joshua Ben geo and Aaron
+
+789
+00:30:17,610 --> 00:30:24,660
+kohrville it's online at Goodfellow
+
+790
+00:30:20,929 --> 00:30:27,929
+github that I owe and the subdirectory
+
+791
+00:30:24,660 --> 00:30:30,600
+is DL book so I'm still here for another
+
+792
+00:30:27,929 --> 00:30:34,289
+20 minutes for questions I'll go ahead
+
+793
+00:30:30,600 --> 00:30:37,230
+and turn on the camera all right so I
+
+794
+00:30:34,290 --> 00:30:39,210
+see somebody asks is there any
+
+795
+00:30:37,230 --> 00:30:45,120
+interactive tool to choose the best AI
+
+796
+00:30:39,210 --> 00:30:47,220
+algorithm the there is no one best AI
+
+797
+00:30:45,120 --> 00:30:49,890
+algorithm there's a theorem called the
+
+798
+00:30:47,220 --> 00:30:52,950
+universal or sorry the no free lunch
+
+799
+00:30:49,890 --> 00:30:55,560
+theorem it says that if you average over
+
+800
+00:30:52,950 --> 00:30:57,800
+all possible problems all machine
+
+801
+00:30:55,559 --> 00:31:00,899
+learning algorithms perform equally well
+
+802
+00:30:57,799 --> 00:31:02,019
+according to one performance metric so
+
+803
+00:31:00,900 --> 00:31:03,790
+that means usual
+
+804
+00:31:02,020 --> 00:31:05,560
+what you need to do is find the best
+
+805
+00:31:03,790 --> 00:31:07,600
+machine learning algorithm for the task
+
+806
+00:31:05,560 --> 00:31:09,850
+that you are trying to solve rather than
+
+807
+00:31:07,600 --> 00:31:11,860
+find the one single best machine
+
+808
+00:31:09,850 --> 00:31:13,930
+learning algorithm
+
+809
+00:31:11,860 --> 00:31:15,730
+I see somebody has suggested the Auto ml
+
+810
+00:31:13,930 --> 00:31:17,260
+challenge I'm not familiar with that one
+
+811
+00:31:15,730 --> 00:31:19,150
+in particular there are a lot of
+
+812
+00:31:17,260 --> 00:31:21,370
+contests out there there are a lot of
+
+813
+00:31:19,150 --> 00:31:23,770
+contests hosted on Kaggle comm for
+
+814
+00:31:21,370 --> 00:31:27,540
+example so you can look and see if
+
+815
+00:31:23,770 --> 00:31:29,410
+Kaggle comm has hosted a contest on a
+
+816
+00:31:27,540 --> 00:31:31,420
+subject that's related to the one you're
+
+817
+00:31:29,410 --> 00:31:33,730
+trying to solve and if they have it you
+
+818
+00:31:31,420 --> 00:31:36,460
+can also pay them to host your own
+
+819
+00:31:33,730 --> 00:31:39,940
+contest if you gather a training set and
+
+820
+00:31:36,460 --> 00:31:41,920
+so on alright I see somebody has asked
+
+821
+00:31:39,940 --> 00:31:43,690
+in most supervised problems there is a
+
+822
+00:31:41,920 --> 00:31:45,970
+predefined number of classes to choose
+
+823
+00:31:43,690 --> 00:31:47,530
+from and it is often hard to define and
+
+824
+00:31:45,970 --> 00:31:49,450
+learn an appropriate set of training
+
+825
+00:31:47,530 --> 00:31:52,210
+data that does not belong to those
+
+826
+00:31:49,450 --> 00:31:54,640
+classes eg the non-faces for face
+
+827
+00:31:52,210 --> 00:31:56,920
+detection or the unknown subjects and a
+
+828
+00:31:54,640 --> 00:31:58,510
+face recognition system are there better
+
+829
+00:31:56,920 --> 00:32:00,250
+ways to deal with this problem rather
+
+830
+00:31:58,510 --> 00:32:05,410
+than just training with huge sets of non
+
+831
+00:32:00,250 --> 00:32:07,830
+class data so in in that case I guess
+
+832
+00:32:05,410 --> 00:32:09,790
+you're saying you want to learn to
+
+833
+00:32:07,830 --> 00:32:13,840
+reject things that are not positive
+
+834
+00:32:09,790 --> 00:32:16,270
+examples one thing you can do is you can
+
+835
+00:32:13,840 --> 00:32:19,990
+just synthetically generate non class
+
+836
+00:32:16,270 --> 00:32:22,600
+data another thing you can do is you can
+
+837
+00:32:19,990 --> 00:32:25,480
+use Bayesian methods that automatically
+
+838
+00:32:22,600 --> 00:32:26,920
+reduce the probability of specific
+
+839
+00:32:25,480 --> 00:32:28,780
+classes if they're far from anything
+
+840
+00:32:26,920 --> 00:32:30,460
+you'd seen in the training set so like
+
+841
+00:32:28,780 --> 00:32:32,200
+if you use some kind of Gaussian process
+
+842
+00:32:30,460 --> 00:32:34,630
+regression it's not really going to have
+
+843
+00:32:32,200 --> 00:32:35,560
+low confidence if the input doesn't
+
+844
+00:32:34,630 --> 00:32:37,180
+resemble something it was in the
+
+845
+00:32:35,560 --> 00:32:40,780
+training set provided that you have some
+
+846
+00:32:37,180 --> 00:32:42,610
+kind of RBF kernel I see somebody asks
+
+847
+00:32:40,780 --> 00:32:43,660
+is there a limit for the size of data
+
+848
+00:32:42,610 --> 00:32:46,300
+set at different deep learning
+
+849
+00:32:43,660 --> 00:32:47,980
+algorithms can handle I know there
+
+850
+00:32:46,300 --> 00:32:49,210
+really isn't one of the great things
+
+851
+00:32:47,980 --> 00:32:50,770
+about deep learning is that it's
+
+852
+00:32:49,210 --> 00:32:54,490
+trainable using stochastic gradient
+
+853
+00:32:50,770 --> 00:32:58,540
+descent so you just load mini batches of
+
+854
+00:32:54,490 --> 00:33:00,910
+examples and the cost of each step of
+
+855
+00:32:58,540 --> 00:33:02,800
+training doesn't really change based on
+
+856
+00:33:00,910 --> 00:33:04,360
+the size of the whole training set it
+
+857
+00:33:02,800 --> 00:33:06,400
+only changes based on the size of the
+
+858
+00:33:04,360 --> 00:33:08,230
+mini batch that you use so you can train
+
+859
+00:33:06,400 --> 00:33:10,450
+with a trillion examples and use a mini
+
+860
+00:33:08,230 --> 00:33:12,760
+batch of size 100 and you'll do
+
+861
+00:33:10,450 --> 00:33:14,410
+perfectly fine that's one of the main
+
+862
+00:33:12,760 --> 00:33:15,400
+advantages of deep learning over kernel
+
+863
+00:33:14,410 --> 00:33:17,200
+machines
+
+864
+00:33:15,399 --> 00:33:20,409
+if you use something like a colonel eyes
+
+865
+00:33:17,200 --> 00:33:25,450
+svm you usually need to build a gram
+
+866
+00:33:20,409 --> 00:33:27,129
+matrix where it's size is the number of
+
+867
+00:33:25,450 --> 00:33:28,930
+rows is equal to the training set size
+
+868
+00:33:27,129 --> 00:33:30,849
+and the number of columns is also equal
+
+869
+00:33:28,929 --> 00:33:32,979
+to the training set size so you get
+
+870
+00:33:30,849 --> 00:33:35,319
+quadratic scaling in memory and time
+
+871
+00:33:32,979 --> 00:33:38,859
+with training set size deep loading
+
+872
+00:33:35,320 --> 00:33:40,750
+completely avoids that problem somebody
+
+873
+00:33:38,859 --> 00:33:43,719
+asks our neural networks still better
+
+874
+00:33:40,749 --> 00:33:47,169
+for unstructured data I would say it
+
+875
+00:33:43,719 --> 00:33:49,239
+depends on what exactly you mean by
+
+876
+00:33:47,169 --> 00:33:51,389
+unstructured if you mean unstructured in
+
+877
+00:33:49,239 --> 00:33:54,789
+the sense that nobody has curated it and
+
+878
+00:33:51,389 --> 00:33:56,019
+divided it into different topics and
+
+879
+00:33:54,789 --> 00:33:57,519
+fields that have been specifically
+
+880
+00:33:56,019 --> 00:34:01,749
+labeled then I'd say neural networks are
+
+881
+00:33:57,519 --> 00:34:03,699
+probably a pretty good bet do I know of
+
+882
+00:34:01,749 --> 00:34:07,269
+any library that can be used in android
+
+883
+00:34:03,700 --> 00:34:09,250
+I don't off the top of my head at least
+
+884
+00:34:07,269 --> 00:34:11,709
+not anything that's that's released
+
+885
+00:34:09,250 --> 00:34:16,180
+publicly but I know different companies
+
+886
+00:34:11,710 --> 00:34:18,670
+have things internally have you seen the
+
+887
+00:34:16,179 --> 00:34:21,579
+tool K Xen that's just the model based
+
+888
+00:34:18,669 --> 00:34:23,649
+on the data you have I have not seen
+
+889
+00:34:21,579 --> 00:34:25,389
+that tool it is conceivable that you
+
+890
+00:34:23,649 --> 00:34:29,079
+could build a classifier that tells you
+
+891
+00:34:25,389 --> 00:34:31,749
+which tool to use though somebody asks
+
+892
+00:34:29,079 --> 00:34:34,869
+what is an average day at Google like
+
+893
+00:34:31,750 --> 00:34:36,700
+for me ok so everybody at Google has a
+
+894
+00:34:34,869 --> 00:34:37,959
+very different schedule really so
+
+895
+00:34:36,700 --> 00:34:41,350
+anybody you ask is going to tell you
+
+896
+00:34:37,960 --> 00:34:44,320
+something very different um I don't
+
+897
+00:34:41,349 --> 00:34:46,419
+manage anybody so I don't actually spend
+
+898
+00:34:44,319 --> 00:34:48,069
+any of my time on managing people if you
+
+899
+00:34:46,419 --> 00:34:49,539
+asked for example my manager or his
+
+900
+00:34:48,069 --> 00:34:50,679
+manager what their day is like they'd
+
+901
+00:34:49,539 --> 00:34:53,049
+spent a lot of time meeting with their
+
+902
+00:34:50,679 --> 00:34:57,099
+reports I don't do that unless I have an
+
+903
+00:34:53,049 --> 00:34:58,569
+intern um a lot of the time I go to
+
+904
+00:34:57,099 --> 00:35:02,469
+several different meetings for different
+
+905
+00:34:58,569 --> 00:35:03,789
+projects and I help people figure out
+
+906
+00:35:02,470 --> 00:35:05,980
+what machine learning algorithm they
+
+907
+00:35:03,789 --> 00:35:07,569
+should be using or if I figure out if
+
+908
+00:35:05,980 --> 00:35:08,710
+they need me to invent some kind of new
+
+909
+00:35:07,569 --> 00:35:12,429
+technique for them to use for their
+
+910
+00:35:08,710 --> 00:35:13,900
+project I spend an hour - every day
+
+911
+00:35:12,430 --> 00:35:16,660
+working on the deep learning textbook
+
+912
+00:35:13,900 --> 00:35:18,340
+and I spent a few hours coding and
+
+913
+00:35:16,660 --> 00:35:20,560
+working on my own personal research
+
+914
+00:35:18,339 --> 00:35:22,179
+projects and I spent a lot of time
+
+915
+00:35:20,559 --> 00:35:24,629
+looking at the output of experiments
+
+916
+00:35:22,180 --> 00:35:27,070
+that I launched a few days earlier um
+
+917
+00:35:24,630 --> 00:35:29,460
+this question about advice for deploying
+
+918
+00:35:27,069 --> 00:35:33,479
+ml as a service
+
+919
+00:35:29,460 --> 00:35:35,730
+I don't have any broad general advice if
+
+920
+00:35:33,480 --> 00:35:37,590
+you want to ask a question that's like
+
+921
+00:35:35,730 --> 00:35:39,420
+if it is a specific aspect of ml as a
+
+922
+00:35:37,589 --> 00:35:40,589
+service that you're wintering about you
+
+923
+00:35:39,420 --> 00:35:43,460
+can ask that down below and I'll answer
+
+924
+00:35:40,589 --> 00:35:46,169
+it when I when I scroll down to there
+
+925
+00:35:43,460 --> 00:35:48,390
+somebody asks are cnn's limited in the
+
+926
+00:35:46,170 --> 00:35:51,120
+number of classes so you're always
+
+927
+00:35:48,390 --> 00:35:53,400
+limited in terms of the memory cost of
+
+928
+00:35:51,119 --> 00:35:55,679
+storing the weight matrix of the output
+
+929
+00:35:53,400 --> 00:35:57,810
+layer and if you have an extremely high
+
+930
+00:35:55,680 --> 00:36:00,840
+number of classes it can get expensive
+
+931
+00:35:57,810 --> 00:36:02,550
+to store that weight matrix there are a
+
+932
+00:36:00,839 --> 00:36:04,859
+lot of techniques that people use to try
+
+933
+00:36:02,550 --> 00:36:06,180
+to reduce that cost like using a
+
+934
+00:36:04,859 --> 00:36:08,249
+hierarchical softmax
+
+935
+00:36:06,180 --> 00:36:10,560
+rather than using one big softmax with
+
+936
+00:36:08,250 --> 00:36:12,060
+one big weight matrix another thing you
+
+937
+00:36:10,560 --> 00:36:15,510
+can do is you can factor your weight
+
+938
+00:36:12,060 --> 00:36:17,400
+matrix to have a bottleneck in it the
+
+939
+00:36:15,510 --> 00:36:19,800
+other thing that limits how well a
+
+940
+00:36:17,400 --> 00:36:21,900
+convolutional network can do in terms of
+
+941
+00:36:19,800 --> 00:36:23,280
+number of classes is just making sure
+
+942
+00:36:21,900 --> 00:36:25,410
+that you have training data for all
+
+943
+00:36:23,280 --> 00:36:27,420
+those classes you probably want to have
+
+944
+00:36:25,410 --> 00:36:29,310
+a few thousand examples for any class
+
+945
+00:36:27,420 --> 00:36:32,430
+that you care about recognizing really
+
+946
+00:36:29,310 --> 00:36:33,540
+accurately but the the requirement that
+
+947
+00:36:32,430 --> 00:36:35,460
+you have training data for all the
+
+948
+00:36:33,540 --> 00:36:38,060
+classes applies to pretty much every
+
+949
+00:36:35,460 --> 00:36:40,710
+machine learning algorithm right now
+
+950
+00:36:38,060 --> 00:36:42,360
+someone asks is there an LS TMR in an
+
+951
+00:36:40,710 --> 00:36:44,730
+algorithm for regression not
+
+952
+00:36:42,359 --> 00:36:48,509
+classification prediction of numerical
+
+953
+00:36:44,730 --> 00:36:49,890
+sequences and yeah there is one thing
+
+954
+00:36:48,510 --> 00:36:51,270
+that's really cool about neural networks
+
+955
+00:36:49,890 --> 00:36:52,650
+is it usually doesn't really matter
+
+956
+00:36:51,270 --> 00:36:54,900
+whether you're doing classification or
+
+957
+00:36:52,650 --> 00:36:57,300
+regression you just need to write down a
+
+958
+00:36:54,900 --> 00:36:59,370
+loss function that makes their output do
+
+959
+00:36:57,300 --> 00:37:01,190
+what you want it to do so anytime you
+
+960
+00:36:59,369 --> 00:37:03,629
+have a neural network and you want it to
+
+961
+00:37:01,190 --> 00:37:07,140
+output some number that you want to use
+
+962
+00:37:03,630 --> 00:37:10,200
+as a probability then you use that
+
+963
+00:37:07,140 --> 00:37:12,600
+number as the appropriate parameter of
+
+964
+00:37:10,200 --> 00:37:15,060
+some probability distribution so if
+
+965
+00:37:12,599 --> 00:37:16,799
+you're doing classification you say I'm
+
+966
+00:37:15,060 --> 00:37:18,890
+going to take the softmax of the output
+
+967
+00:37:16,800 --> 00:37:21,210
+number and that's going to give me a
+
+968
+00:37:18,890 --> 00:37:24,150
+distribution of your classes if you're
+
+969
+00:37:21,210 --> 00:37:25,710
+doing regression you say I'm going to
+
+970
+00:37:24,150 --> 00:37:28,710
+take the output number and I'm going to
+
+971
+00:37:25,710 --> 00:37:31,020
+use the output as the mean of the
+
+972
+00:37:28,710 --> 00:37:33,060
+Gaussian distribution and then I'm just
+
+973
+00:37:31,020 --> 00:37:35,070
+going to take that Gaussian distribution
+
+974
+00:37:33,060 --> 00:37:36,360
+measure the log likelihood of the
+
+975
+00:37:35,070 --> 00:37:39,830
+training data under that distribution
+
+976
+00:37:36,359 --> 00:37:44,239
+and I'm going to have gradient descent
+
+977
+00:37:39,830 --> 00:37:44,240
+minimize the negative log likelihood
+
+978
+00:37:44,520 --> 00:37:48,660
+someone else asks if I've played with
+
+979
+00:37:46,500 --> 00:37:50,870
+wet labs AI that can apparently find the
+
+980
+00:37:48,660 --> 00:37:53,700
+best parameters like learning rate etc
+
+981
+00:37:50,870 --> 00:37:57,600
+yeah so I have used wet lab on a few
+
+982
+00:37:53,700 --> 00:38:00,120
+different occasions back before wet lab
+
+983
+00:37:57,600 --> 00:38:03,150
+was called wet lab it was an open-source
+
+984
+00:38:00,120 --> 00:38:04,800
+product called spearmint I've written a
+
+985
+00:38:03,150 --> 00:38:06,900
+few different papers over the years if
+
+986
+00:38:04,800 --> 00:38:08,910
+anybody's followed those papers closely
+
+987
+00:38:06,900 --> 00:38:11,250
+the first time I tried using spearmint
+
+988
+00:38:08,910 --> 00:38:13,890
+was for the multi prediction deep
+
+989
+00:38:11,250 --> 00:38:17,580
+Boltzmann machine paper and it didn't
+
+990
+00:38:13,890 --> 00:38:19,290
+really work and then the next time I
+
+991
+00:38:17,580 --> 00:38:20,970
+tried it was for the max out networks
+
+992
+00:38:19,290 --> 00:38:23,190
+paper and it also didn't really work
+
+993
+00:38:20,970 --> 00:38:24,800
+there but let me explain a little bit
+
+994
+00:38:23,190 --> 00:38:27,840
+about why I think it didn't work for me
+
+995
+00:38:24,800 --> 00:38:29,370
+both of those papers had a lot of
+
+996
+00:38:27,840 --> 00:38:31,770
+different kinds of parameters that I was
+
+997
+00:38:29,370 --> 00:38:34,140
+trying to fit around maybe 40 different
+
+998
+00:38:31,770 --> 00:38:35,700
+parameters and a lot of them were for
+
+999
+00:38:34,140 --> 00:38:38,100
+things like the sizes of different
+
+1000
+00:38:35,700 --> 00:38:42,510
+layers or the sizes of convolutional
+
+1001
+00:38:38,100 --> 00:38:44,760
+network kernels or the number of layers
+
+1002
+00:38:42,510 --> 00:38:47,310
+in the network for things like that
+
+1003
+00:38:44,760 --> 00:38:49,620
+where you're determining the actual
+
+1004
+00:38:47,310 --> 00:38:50,970
+architecture of the network I think that
+
+1005
+00:38:49,620 --> 00:38:52,230
+what lab doesn't work as well I think it
+
+1006
+00:38:50,970 --> 00:38:55,320
+probably works okay for the learning
+
+1007
+00:38:52,230 --> 00:38:58,440
+rate and so on more recently I tried
+
+1008
+00:38:55,320 --> 00:39:01,200
+using wet lab the actual wet lab product
+
+1009
+00:38:58,440 --> 00:39:03,030
+for the paper that I published it I
+
+1010
+00:39:01,200 --> 00:39:05,310
+cleared this year explained us
+
+1011
+00:39:03,030 --> 00:39:07,920
+explaining and harnessing adversarial
+
+1012
+00:39:05,310 --> 00:39:09,330
+examples in that case I was just using
+
+1013
+00:39:07,920 --> 00:39:12,900
+it to choose the learning rate and
+
+1014
+00:39:09,330 --> 00:39:14,550
+momentum parameter and in that case it
+
+1015
+00:39:12,900 --> 00:39:15,600
+actually still didn't work very well for
+
+1016
+00:39:14,550 --> 00:39:19,620
+me and I don't have a very good
+
+1017
+00:39:15,600 --> 00:39:22,200
+explanation of why some of my other
+
+1018
+00:39:19,620 --> 00:39:24,450
+friends and colleagues I do have
+
+1019
+00:39:22,200 --> 00:39:26,100
+positive experiences with wet lab for
+
+1020
+00:39:24,450 --> 00:39:28,350
+example George Dahl who sits right
+
+1021
+00:39:26,100 --> 00:39:31,470
+across the table from me at Google has
+
+1022
+00:39:28,350 --> 00:39:33,690
+used wet lab and says that it it usually
+
+1023
+00:39:31,470 --> 00:39:35,220
+produces outputs that perform about as
+
+1024
+00:39:33,690 --> 00:39:37,590
+well as the values he chooses himself
+
+1025
+00:39:35,220 --> 00:39:41,430
+but he can find them with less effort if
+
+1026
+00:39:37,590 --> 00:39:42,870
+he uses wet lab somebody asks if I think
+
+1027
+00:39:41,430 --> 00:39:44,280
+that generative adversarial Nets have a
+
+1028
+00:39:42,870 --> 00:39:47,850
+brighter future that variational
+
+1029
+00:39:44,280 --> 00:39:50,850
+inference I think it's really hard to
+
+1030
+00:39:47,850 --> 00:39:52,320
+call I think the idea of research is
+
+1031
+00:39:50,850 --> 00:39:54,330
+people should explore many different
+
+1032
+00:39:52,320 --> 00:39:57,490
+ideas in parallel to each other they're
+
+1033
+00:39:54,330 --> 00:40:00,320
+also not necessarily
+
+1034
+00:39:57,490 --> 00:40:02,890
+mutually exclusive like you could
+
+1035
+00:40:00,320 --> 00:40:05,030
+imagine using variational inference to
+
+1036
+00:40:02,890 --> 00:40:07,970
+recover the code in a generative
+
+1037
+00:40:05,030 --> 00:40:09,650
+adversarial Network or you can imagine
+
+1038
+00:40:07,970 --> 00:40:13,840
+using a generative adversarial network
+
+1039
+00:40:09,650 --> 00:40:17,330
+to define your variational distribution
+
+1040
+00:40:13,839 --> 00:40:19,149
+so I think every serial training and
+
+1041
+00:40:17,329 --> 00:40:21,109
+variational techniques are both
+
+1042
+00:40:19,150 --> 00:40:23,590
+important tools for future research
+
+1043
+00:40:21,109 --> 00:40:23,589
+directions
+
+1044
+00:40:24,760 --> 00:40:28,790
+okay so I've worked my way through the
+
+1045
+00:40:27,349 --> 00:40:30,589
+question queue if any other questions
+
+1046
+00:40:28,790 --> 00:40:33,590
+pop up I can answer them I'll hang out
+
+1047
+00:40:30,589 --> 00:40:37,179
+for another minute or so and if there's
+
+1048
+00:40:33,589 --> 00:40:37,179
+no new questions in I'll let you move on
+
+1049
+00:40:41,349 --> 00:40:48,349
+thanks to everyone who's saying they
+
+1050
+00:40:43,790 --> 00:40:49,600
+enjoyed the talk all right so it looks
+
+1051
+00:40:48,349 --> 00:40:54,049
+like that's the end of the questions
+
+1052
+00:40:49,599 --> 00:40:57,379
+I'll post the slides on on Google+ in
+
+1053
+00:40:54,050 --> 00:40:59,090
+just a minute and you can just search
+
+1054
+00:40:57,380 --> 00:41:00,470
+Google Plus for E and Goodfellow and
+
+1055
+00:40:59,089 --> 00:41:08,259
+you'll see the link of the slides there
+
+1056
+00:41:00,470 --> 00:41:08,260
+um and yeah have a good day everyone
+
+1057
+00:41:13,550 --> 00:41:15,610
+you
+

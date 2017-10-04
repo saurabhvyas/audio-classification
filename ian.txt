@@ -1,0 +1,2114 @@
+good morning everyone for those of you
+
+in my time zone good afternoon for those
+
+of you in New York all right so today
+
+I'm going to give you a talk about
+
+practical methodology for deploying
+
+machine learning this is a talk that's
+
+sort of an homage to talk by my Master's
+
+adviser Andrew who was a professor at
+
+Stanford at the time he did the original
+
+version of this talk today I'll be
+
+presenting my own take on it and some
+
+updated advice based on the last few
+
+years of advances in machine learning
+
+and in terms of the format of the talk
+
+I'll be able to answer a few questions
+
+live during the talk but for the most
+
+part if there's a lot of questions I'll
+
+need to postpone them until the very end
+
+but if there's just one or two quick
+
+clarification things about the slides
+
+feel free to jump in and as long as
+
+there's a low volume of questions I'll
+
+answer them as we go the basic idea
+
+behind this talk is that I want to help
+
+focus your attention on what drives
+
+success in machine learning I understand
+
+a lot of people at this conference are
+
+just beginning their journey of learning
+
+how to work in AI and how to use machine
+
+learning the thing is a lot of tutorials
+
+and text books and videos about machine
+
+learning don't really focus you on
+
+exactly what will lead to the fastest
+
+improvement in your ability to function
+
+in the field most tutorials that you
+
+read proceed by amassing several
+
+different algorithms inductive
+
+principles inference techniques and so
+
+on they make it seem like the way to
+
+become an expert in machine learning is
+
+to know exactly how every algorithm from
+
+the relevance vector machine to Bayesian
+
+linear regression works so I'd say over
+
+here this is one of the things that
+
+people seem to think drive success in
+
+machine learning it's always nice to
+
+know about more algorithms but I would
+
+argue it's far more important to have
+
+lots of data and to know how to apply
+
+three to four standard techniques when I
+
+say know how to apply I mean to know how
+
+to configure their settings understand
+
+whether they're working well
+
+we're working poorly and understand how
+
+to adjust and react if you find that
+
+they are working poorly so this talk
+
+today focuses on this third topic how to
+
+apply the bread-and-butter techniques of
+
+machine learning as a case study that
+
+I'll use as a running example to help
+
+give you concrete instances of the
+
+different advice that I apply I'll be
+
+telling you about a system that I helped
+
+build at Google this is the Street View
+
+address numbered transcription system
+
+the basic idea is that Google Maps can
+
+give you directions to many different
+
+buildings and addresses around the world
+
+but we don't necessarily have all the
+
+buildings you might want to go to in our
+
+Maps already one way that we can add
+
+more buildings to our maps is to use the
+
+GPS and photo data from the Street View
+
+cars as the Street View cars drive
+
+around different streets they take
+
+photos of everything they see and they
+
+also record the GPS coordinates of their
+
+location when they took the photo so if
+
+we see the address number of a building
+
+and that building isn't already on our
+
+map we could in principle put that
+
+building into Google Maps at the correct
+
+GPS coordinates the problem is there are
+
+an awful lot of address numbers that we
+
+take photos of and it's labor-intensive
+
+to transcribe them and put them on the
+
+map the way we solve this problem was we
+
+built a neural network to transcribe the
+
+numbers out of the photographs and
+
+convert them into a computer readable
+
+digital format so that we could then
+
+update the maps entries throughout this
+
+talk I'll refer to a few different
+
+challenges that we encountered along the
+
+the progress of this project and I'll
+
+describe the way that we overcame each
+
+of these challenges as part of my
+
+general advice for you to apply in your
+
+own work the basic methodology I'm going
+
+to advocate is a three step process in
+
+the first step you identify the needs
+
+that you have for the product or the
+
+service or the research project that
+
+you're building you then use these needs
+
+to figure out what your goals should be
+
+your goals should be specific and
+
+quantitative part of the planning
+
+to choose what metrics you will use to
+
+measure success and exactly what kind of
+
+numbers you need to achieve for those
+
+metrics after you've set up your goals
+
+you need to build an end-to-end system
+
+as soon as possible you don't want to
+
+over engineer your project before you
+
+begin working on it just think of the
+
+simplest thing that can actually produce
+
+a usable output for the task that you
+
+want to solve it doesn't matter if the
+
+output is actually any good or not it
+
+just needs to be something that can
+
+actually be scored using your metrics
+
+once you have the end-to-end system in
+
+place you begin step three data driven
+
+refinement in step three you measure
+
+different properties of your system you
+
+figure out which aspects of it are
+
+working well and which aspects are
+
+working poorly and you use these data
+
+driven metrics to improve the parts that
+
+are working poorly and improve them I
+
+haven't uploaded the slides sorry I can
+
+upload them right after the talk after
+
+you have improved your system with this
+
+data-driven refinement process you might
+
+end up with something that's complex at
+
+the end but it won't be over engineered
+
+it will be engineered to be just as
+
+complex as you need to solve the task if
+
+you design a complicated system before
+
+you've actually started tackling the
+
+problem you might overestimate how
+
+complicated it needs to be and end up
+
+with something that's harder to maintain
+
+and use in your business than you need
+
+all right so that's the overall
+
+three-step process now I'll go through
+
+each of these steps in a little bit more
+
+detail the first step is identifying the
+
+needs of your product or service and
+
+defining metric based goals that will
+
+ensure you meet those needs one thing
+
+you need to think about is how could how
+
+much accuracy you actually need in your
+
+product obviously everyone would always
+
+like to build a machine learning system
+
+that's absolutely perfect but that's
+
+usually going to be extremely expensive
+
+if it's even possible at all so you need
+
+to think about how much time and money
+
+you're going to invest to get different
+
+levels of accuracy and you probably want
+
+to initially plan
+
+for the lowest amount of accuracy that's
+
+actually usable in your application some
+
+applications intrinsically demand lots
+
+and lots of accuracy if you're building
+
+a surgery robot that's going to cut
+
+apart people's veins and stitch them
+
+back together
+
+any machine learning you need in there
+
+needs to be extremely accurate
+
+otherwise you're going to cause lots of
+
+pain and suffering and injury if you're
+
+building a mobile app where you take a
+
+picture of your friends that it says
+
+which celebrity they look like there's
+
+not even really a right answer in that
+
+case so it's alright if you don't
+
+necessarily have the most accurate
+
+machine learning system of all time most
+
+applications fall somewhere in the
+
+middle a lot of a lot of business
+
+applications where you use predictions
+
+to plan investments in sales and
+
+acquisitions and so on they fall into
+
+this realm where if you can make better
+
+predictions than the humans are already
+
+making they'll make money we at least
+
+save money relative to what you do if
+
+you operate it off of the human
+
+predictions and the more accurate your
+
+predictions are the better you'll do but
+
+just getting past the human baseline is
+
+sufficient to have a useful product for
+
+the street view address number
+
+transcription system we determined that
+
+we wanted to have human level accuracy
+
+in our transcription we wanted to make
+
+sure that we weren't getting any address
+
+numbers wrong compared to what human
+
+transcribers would get the reason is
+
+that it's very frustrating if you ask
+
+for directions and then Google Maps
+
+leads you to the wrong address
+
+so we needed to make sure that we didn't
+
+reduce the accuracy below the system
+
+that we were already using in order to
+
+measure the accuracy we were able to
+
+just use the percentage of examples that
+
+are correct that's a relatively
+
+straightforward metric but there's other
+
+tasks where you don't want to just
+
+measure the number of examples that are
+
+correct for example if you're building a
+
+test to determine whether someone has a
+
+rare disease you can just say nobody has
+
+the disease because the disease is rare
+
+you'll get a very high accuracy that way
+
+suppose that only 1/10 of 1% of all
+
+people in the population
+
+have this disease you'd get 99.9%
+
+accuracy for cases like that there are
+
+other metrics that you should use
+
+so precision tells you the number of
+
+detections that are correct in the test
+
+for the disease if you say someone has a
+
+disease precision is the probability
+
+that you're correct that they actually
+
+have the disease another metric is
+
+recall the percentage of positive
+
+examples that you actually detect so in
+
+the disease example this would mean of
+
+all the people who have the disease what
+
+what percentage of them do you correctly
+
+diagnosed as having it for the Street
+
+View application this didn't actually
+
+matter because our different classes
+
+that we were categorizing into you were
+
+the six digit numbers that addresses can
+
+take on there's not any one class that's
+
+extremely rare and another class that's
+
+extremely common one metric we did end
+
+up using that was important though and
+
+that you don't see very often and that I
+
+think should be used more often is
+
+coverage so you probably have a part of
+
+coverage before the idea behind coverage
+
+is you can have a machine learning
+
+system that refuses to classify some
+
+inputs basically if you show it an
+
+example where it's not confident what
+
+the correct answer is it can say I am
+
+NOT confident what the correct answer is
+
+you should not use machine learning to
+
+solve this particular input coverage is
+
+the percentage of examples that the
+
+machine learning system actually
+
+confidently classifies and using this
+
+metric was key to our success on the
+
+street view house number pipeline it's
+
+very difficult to reach human level
+
+accuracy on address number transcription
+
+if you insist
+
+that the network classifies every single
+
+example that you show it but you can
+
+easily reach human level accuracy if
+
+you're willing to reduce coverage if
+
+you're willing to say I'm going to throw
+
+out 6 percent of the examples so that I
+
+can reach 99.5% accuracy on the
+
+remaining ones then you can actually get
+
+as high of accuracy as you want provided
+
+that you're willing to throw out more
+
+and more examples so when we set our
+
+goals for the street view house number
+
+transcription pipeline we set our goals
+
+in terms of accuracy and coverage we
+
+wanted to get human level accuracy at a
+
+specific
+
+level of coverage that we felt was
+
+necessary to justify the investment in
+
+the machine learning pipeline there are
+
+other applications besides
+
+classification out there for example if
+
+you're using regression you need to use
+
+a metric based on the size of the
+
+prediction errors that you make like
+
+mean squared error or mean absolute
+
+error all right so the second stage of
+
+the methodology is where you actually
+
+build your end-to-end system you want to
+
+get your system up and running as soon
+
+as possible so that you can identify
+
+what the real challenges are a lot of
+
+the time the aspects that are
+
+challenging are not the ones that you
+
+thought they would be before you started
+
+building it everything and so you want
+
+to find out what's actually going to be
+
+difficult as soon as possible I'm
+
+advocating building the simplest viable
+
+system first the question is what's the
+
+simplest viable system and and where
+
+should you start what should you use as
+
+your beginning point from which you
+
+start to iterate one thing that you can
+
+do if you're working on an application
+
+that's already been done before by other
+
+people is just to find a published
+
+result in this same field and copy the
+
+state-of-the-art method you might not
+
+want to use literally the method that
+
+gets the absolute best accuracy you
+
+might want to get as simple and easy to
+
+implement one that's very close to the
+
+best accuracy if you don't know of any
+
+existing publications that solve the
+
+same application as you then you
+
+probably need to make a judgment call
+
+about what a relatively standard
+
+algorithm is that you should start with
+
+so now I'm going to give you some
+
+guidance about what some reasonable
+
+baselines are to begin with one of the
+
+first questions to ask today in 2015 is
+
+whether you should use deep learning or
+
+not deep learning is very hot right now
+
+and it's my specialty so you're probably
+
+expecting me to tell you should always
+
+use deep learning all the time
+
+that's actually not the case one of the
+
+first things you should decide is
+
+whether the problem you're tackling
+
+requires deep learning or not many tasks
+
+have lots of noise and very little
+
+structure in them usually if this is the
+
+case you don't want deep learning
+
+something like linear regression will
+
+suffice
+
+if there's relatively little noise in
+
+your problem setup
+
+there's a lot of complex structure then
+
+you can use deep learning so when I say
+
+that something has complex structure I
+
+mean you have a task like looking at an
+
+image or a video or a paragraph and
+
+summarizing what it means to a human
+
+being saying you know this paragraph
+
+contains positive sentiment or negative
+
+sentiment or this photo contains an
+
+airplane those involved really
+
+complicated mappings from individual
+
+pixels or individual characters or
+
+individual words to very high-level
+
+abstract ideas but if your system has a
+
+lot of noise and very little structure
+
+and you're just saying something like
+
+here is a house and I'm telling you how
+
+many square feet it has please tell me
+
+how much it costs then there aren't very
+
+many different variables there the
+
+relationship between them is not very
+
+complicated you can solve that with a
+
+much simpler machine learning system the
+
+best shallow baseline to use in one of
+
+these high noise low structure
+
+situations is to use the system that
+
+you're most familiar with a lot of
+
+people will debate endlessly which
+
+machine learning algorithm is the best
+
+but there are theorems out there that to
+
+actually tell you that there is no best
+
+machine learning algorithm usually
+
+you're going to perform the best if you
+
+use something that you're comfortable
+
+with and that you understand if you
+
+understand logistic regression really
+
+well and you know how to tweak it then
+
+use logistic regression if you tweak
+
+logistic regression effectively you will
+
+do much better than if you use an SVM
+
+and don't tweak it well also the same
+
+the same applies in Reverse if you're
+
+familiar with support vector machines
+
+and you think you understand how to
+
+tweak those then by all means begin to
+
+support vector machines before about
+
+2013 before deep learning became really
+
+effective boosted decision trees were
+
+one of my favorite default algorithms if
+
+you have a good implementation of those
+
+and you feel comfortable using them then
+
+they're a really good baseline in a lot
+
+of cases and I successfully use those
+
+for a lot of robotics problems okay so
+
+suppose that you have a very complicated
+
+problem and you have enough data to fit
+
+it in that case then you want to go
+
+ahead and use deep learning
+
+so what deep learning model should you
+
+use the basic way that you decide what
+
+kind of deep learning model to use is
+
+well first as I said on the earlier
+
+slide if there's already a published
+
+baseline that works well in this task
+
+then just copy the architecture from the
+
+published baseline but if you're working
+
+on a totally new problem and you need to
+
+make your own decision about what to use
+
+the main way you decide is you look at
+
+what kind of structure there is in the
+
+data some data doesn't really have any
+
+structure at all it's just a list of
+
+measurements and you just in this case
+
+you could just apply a fully connected
+
+neural network to it there's no special
+
+structure in the neural network at all
+
+it's just completely specified matrices
+
+at every level a lot of tasks have
+
+spatial structure to them this is things
+
+like images or videos or data based on
+
+on maps or any kind of thing we have
+
+sensors aligned on a grid in that case
+
+you can use a convolutional network a
+
+convolutional network is a kind of
+
+neural network that says it's going to
+
+apply the same little function at every
+
+different point in space and if you
+
+learn that one little function really
+
+well then you can apply it everywhere
+
+you don't need to independently relearn
+
+it at every location in the grid finally
+
+if you have a kind of data that has
+
+sequential structure to it then you want
+
+to use a recurrent neural network this
+
+is if you have something like text where
+
+you want to read a long sentence and
+
+then at the very end you're going to be
+
+asked a question about it
+
+so at the end of the sentence you need
+
+to remember something from very early at
+
+the start of the sentence you might
+
+notice that there's a little bit of
+
+overlap between sequential and spatial
+
+structure you can kind of think of time
+
+and space as interchangeable so there is
+
+a little bit of a judgement call of it
+
+whether you want to use convolutional
+
+orbit current networks in some sense
+
+they are similar things I in recurrent
+
+networks kind of imply that you are
+
+convolving over time but that's that's
+
+maybe a little bit more advanced than I
+
+need to get into right now you could do
+
+reasonably well with the choice of
+
+either a convolutional or a recurrent
+
+Network any time that you have this kind
+
+of structure available okay so
+
+you've decided that you want to use a
+
+fully connected neural network to solve
+
+some kind of unstructured data
+
+processing task what's a good baseline
+
+for that situation as of 2015 I would
+
+say that the best baseline to start with
+
+the one that's really easy to implement
+
+and works well in a wide variety of
+
+settings is the two to three hidden
+
+layer feed-forward neural network these
+
+are also called multi-layer perceptrons
+
+and you can go ahead and add more hidden
+
+layers later if you decide that they're
+
+they're needed but to begin with just
+
+try two three maybe even just one hidden
+
+layer you definitely want to use
+
+rectified linear units as your baseline
+
+don't use sigmoids sigmoids are
+
+considered out-of-date now and rectified
+
+linear units are far easier to use you
+
+also probably want to use dropout
+
+geoffery Hinton's regularization
+
+strategy where you randomly mask out
+
+half of the units on every step of
+
+training to train the neural network you
+
+want to use stochastic gradient descent
+
+and momentum this technique is really
+
+effective it works very well as long as
+
+you have a few thousand examples per
+
+class and it's been applied to
+
+everything from speech to vision to
+
+natural language processing it's it's
+
+really the standard engine that drives
+
+pretty much everything in defining right
+
+now part of the reason I'm doing this
+
+talk and highlighting this as an example
+
+of a great baseline for right now is
+
+that it can be hard to sift through the
+
+literature and determine what the latest
+
+advice is so a lot of people are first
+
+getting into deep learning read that
+
+deep learning is all about deep belief
+
+networks and deep bolts and machines and
+
+so on or auto-encoders
+
+I don't really recommend those methods
+
+right now those were performing very
+
+well from about 2006 to 2012 but they're
+
+complicated and difficult to make work
+
+you need to understand a lot more ideas
+
+to get them to work well and these days
+
+there are very few tasks where they're
+
+actually the state-of-the-art anymore
+
+unless you know for a fact
+
+something like auto-encoders is
+
+necessary to perform well on the
+
+application you're working on you
+
+probably want to default to this
+
+backpropagation based rectified linear
+
+network so that's what you do if your
+
+data doesn't have any particular
+
+structure to it if your data has image
+
+structure then you want to use a
+
+convolutional network so I also have
+
+some pretty strong recommendations for
+
+what to use if you're in the
+
+convolutional setting if you're able to
+
+do it I suggest using an inception
+
+Network trade with batch normalization
+
+you'll read a lot of papers out there
+
+about all these different tricks to
+
+train very deep convolutional networks
+
+and in a lot of cases it turns out that
+
+you can actually train as deep of a
+
+network as you want just by using this
+
+batch normalization algorithm that was
+
+released by my colleagues at Google
+
+earlier this year inception and batch
+
+normalization are somewhat complicated
+
+and not every library offers these kinds
+
+of networks so if you're using a library
+
+that doesn't support for example the
+
+inception Network you can fall back to a
+
+simpler convolutional Network once again
+
+I recommend using rectified linear units
+
+the same as in the feed-forward Network
+
+case so just use a convolutional net
+
+work with rectified linear units regular
+
+as it with dropout and train with
+
+stochastic gradient descent in momentum
+
+alright finally if you have a task with
+
+sequential structure then you can use a
+
+recurrent Network in this case the
+
+standard baseline I recommend is the LST
+
+M developed by step lock writer and your
+
+instrument youever um oh yeah I see
+
+somebody's asking about unsupervised
+
+learning if if your task really is
+
+unsupervised like if your final goal is
+
+not to do classification then go ahead
+
+and use an unsupervised learning
+
+algorithm um it depends which kind of
+
+unsupervised task you want to solve if
+
+you're if you're doing something like
+
+denoising then use a denoising
+
+auto-encoder if you're doing something
+
+like generating new samples then you
+
+might want to use a generative
+
+adversarial network or a variational
+
+auto encoder um let me read the
+
+follow-up
+
+oh yeah hidden Markov models hidden
+
+Markov models are
+
+perfectly fine as long as you don't need
+
+the hidden state variable to be
+
+complicated in high dimensional if
+
+there's a very high dimensional hidden
+
+state than hidden Markov models don't
+
+scale as well as recurrent Nets
+
+okay so popping back to the recurrent
+
+Network situation I would recommend the
+
+LST M as the default model that people
+
+use when tackling a complicated AI
+
+complete sequence modeling task you can
+
+train this in stochastic gradient
+
+descent I've heard a lot of people say
+
+that you don't even need to use momentum
+
+in this case the LST M already makes it
+
+easy enough to optimize that you don't
+
+need that extra step but momentum is
+
+usually helpful one thing that's really
+
+important when training any kind of
+
+recurrent network is to apply gradient
+
+clipping that means that during back
+
+propagation as the gradient flows
+
+backward through the network you impose
+
+some maximum size on the gradient and if
+
+the true gradient exceeds that sides you
+
+just you clip it to be smaller than then
+
+what the math actually says it should be
+
+the reason for this is that when you
+
+propagate backward through several
+
+hundred steps in an LST M it can make
+
+the gradient become quite large and a
+
+very large gradient can actually do a
+
+lot of damage if you take a gigantic
+
+gradient step so just by just by
+
+clipping it you can avoid that
+
+instability problem so I see there's a
+
+question about whether google has any
+
+new methods to parallelize llst m as
+
+well I don't actually know anything
+
+about the pyramid lsdm myself so one
+
+thing is at Google we do train a lot of
+
+things using asynchronous gradient
+
+descent where we just train many copies
+
+of the LST m simultaneously that's using
+
+our internal disbelief library um that's
+
+not really something that people outside
+
+can just grab and use but there are
+
+other multi replicas learning strategies
+
+that have been made public one last
+
+trick that you should probably use in
+
+your baseline for a recurrent Network is
+
+setting the forget but get the forget
+
+gate bias to be high that makes it so
+
+that the forget good of the LS TM
+
+initially says not to forget anything
+
+and that helps to make sure
+
+that information flows through the
+
+network originally all right so stage 3
+
+of this methodology pipeline is to do a
+
+data driven adaptation after you've got
+
+your baseline in pit in place you choose
+
+what to do next based on data I'm an
+
+important thing in this step is to not
+
+believe hype about different kinds of
+
+algorithms out there every week there
+
+are dozens of papers appearing in
+
+archives saying you know we have this
+
+new like lingerie in Bayesian
+
+variational variant of this algorithm
+
+you're already using and if you use this
+
+it's going to be a million times better
+
+most of the time most of these papers
+
+are just one author trying to get
+
+attention for their own method and try
+
+to build their resume it takes quite a
+
+long time for an algorithm to get
+
+established and for you to really know
+
+that it's trustworthy so filter out a
+
+bit of the noise try to take a bit of a
+
+conservative approach to what algorithm
+
+to use and expect most of the benefit
+
+you get from doing very bread-and-butter
+
+stuff where you adapt the settings for
+
+the algorithm you're already using or
+
+you gather more data and when you do
+
+change from one algorithm to another it
+
+shouldn't be just because you've read
+
+that some tool is the hottest new thing
+
+it should be because you've used a
+
+metric to figure out what the best next
+
+step should be the most important
+
+metrics are the training error and the
+
+tester you measure how well you're doing
+
+on the training set and you measure how
+
+well you're doing on the test set if
+
+you're not doing well enough on the
+
+train set then you're under fitting and
+
+if you're not doing well on the test set
+
+then you're overfitting so I'll talk a
+
+little bit about how to address each of
+
+these problems if you have high training
+
+error there's a few different steps you
+
+should take I'm most most textbook
+
+advice will immediately start telling
+
+you how to do things to your machine
+
+learning model but I actually say the
+
+very first thing you should do is check
+
+whether your data has a problem make
+
+sure that hasn't been collected poorly
+
+or something like that
+
+if the data has defects then your
+
+algorithm won't be able to fit it next
+
+you should actually inspect your
+
+software for defects and specifically
+
+I'd say don't make your own software
+
+unless you definitely know
+
+you're doing using other established
+
+software that's been tested and improved
+
+by many people is a good way of being
+
+relatively confident that your high
+
+training or doesn't come from a bug once
+
+you're sure that both the data and the
+
+algorithm are correctly gathered and
+
+correctly implemented you can begin to
+
+address high training error by adapting
+
+the learning rate and adapting the other
+
+settings that affect the optimization
+
+procedure you can also make your model
+
+bigger so that it can fit a larger
+
+training set I'll give you a few
+
+examples of each of these things here so
+
+for the Street View transcriber one of
+
+the biggest things we did was we changed
+
+the way that we cropped the photos that
+
+were provided to the system after we had
+
+built our baseline we started looking at
+
+which examples it was getting run over
+
+here on the left here's an example of a
+
+kind of mistake that it was making we
+
+would see these photos that say six six
+
+two four and the correct answer is two
+
+six six two four so we realized that our
+
+automatic cropping system was actually
+
+cropping a little bit too tight we
+
+solved that just by telling it to make
+
+whiter crops and now you can actually
+
+see the complete digit the complete
+
+address number so this is a really
+
+simple and dumb mistake and it's very
+
+simple to fix it doesn't require any
+
+real knowledge of machine learning to
+
+fix all we did was look at what mistakes
+
+were happening and then try to
+
+categorize them and figure out what the
+
+largest bottleneck was so that was our
+
+biggest change that we did in terms of
+
+how much it improved our performance was
+
+we found that sometimes the crop was too
+
+tight and we were misclassifying
+
+examples because of the crop our biggest
+
+change during the development of the
+
+pipeline was not to change algorithms
+
+introduced unsupervised learning
+
+anything like that it was just to
+
+measure where the mistakes were
+
+happening and make a very simple
+
+common-sense change you can also fit the
+
+training set better by increasing the
+
+size of the model here we have a graph
+
+of how our important our performance
+
+improved as we added more layers to this
+
+tree tree transcription system this is
+
+pretty simple we just kept adding more
+
+hidden layers and the performance kept
+
+going up a lot of the time if you have a
+
+lot of data you'll find that you can
+
+keep making the model bigger and bigger
+
+and you always see an improved
+
+a lot of the time you'll end up finding
+
+that your performance is limited by the
+
+size of the model that you're able to
+
+afford to run okay so that's what you do
+
+if you have high training center what if
+
+you have high test set error one thing
+
+you can do is you can dupe data set
+
+augmentation where you make multiple
+
+copies of your training examples
+
+transformed in different ways that's a
+
+relatively cheap way of getting more
+
+data you can also just pay to get more
+
+data if you aren't using a
+
+regularization strategy like drop out
+
+already then you can add drop out and
+
+hope that it that reduces your test set
+
+error so here's a graph of what happens
+
+as you increase your training set size
+
+on the right I'm plotting the optimal
+
+size of the model so as you get more and
+
+more training examples you'll need to
+
+you'll need to use larger and larger
+
+models on the left I'm showing a few
+
+different things that happen one of
+
+these is the training set error the
+
+optimal model size most of the time in
+
+deep learning your optimal model is
+
+going to get zero training error and the
+
+question is just how badly does Nover
+
+fit what is the gap between train and
+
+test performance you'll see that test
+
+performance drops over time as the
+
+training number of training examples
+
+increases so a lot of the time the size
+
+of your data set is the most important
+
+factor driving your success so that's
+
+the end of my talk if you'd like more
+
+information feel free to look at the
+
+deep learning textbook that I'm writing
+
+along with Joshua Ben geo and Aaron
+
+kohrville it's online at Goodfellow
+
+github that I owe and the subdirectory
+
+is DL book so I'm still here for another
+
+20 minutes for questions I'll go ahead
+
+and turn on the camera all right so I
+
+see somebody asks is there any
+
+interactive tool to choose the best AI
+
+algorithm the there is no one best AI
+
+algorithm there's a theorem called the
+
+universal or sorry the no free lunch
+
+theorem it says that if you average over
+
+all possible problems all machine
+
+learning algorithms perform equally well
+
+according to one performance metric so
+
+that means usual
+
+what you need to do is find the best
+
+machine learning algorithm for the task
+
+that you are trying to solve rather than
+
+find the one single best machine
+
+learning algorithm
+
+I see somebody has suggested the Auto ml
+
+challenge I'm not familiar with that one
+
+in particular there are a lot of
+
+contests out there there are a lot of
+
+contests hosted on Kaggle comm for
+
+example so you can look and see if
+
+Kaggle comm has hosted a contest on a
+
+subject that's related to the one you're
+
+trying to solve and if they have it you
+
+can also pay them to host your own
+
+contest if you gather a training set and
+
+so on alright I see somebody has asked
+
+in most supervised problems there is a
+
+predefined number of classes to choose
+
+from and it is often hard to define and
+
+learn an appropriate set of training
+
+data that does not belong to those
+
+classes eg the non-faces for face
+
+detection or the unknown subjects and a
+
+face recognition system are there better
+
+ways to deal with this problem rather
+
+than just training with huge sets of non
+
+class data so in in that case I guess
+
+you're saying you want to learn to
+
+reject things that are not positive
+
+examples one thing you can do is you can
+
+just synthetically generate non class
+
+data another thing you can do is you can
+
+use Bayesian methods that automatically
+
+reduce the probability of specific
+
+classes if they're far from anything
+
+you'd seen in the training set so like
+
+if you use some kind of Gaussian process
+
+regression it's not really going to have
+
+low confidence if the input doesn't
+
+resemble something it was in the
+
+training set provided that you have some
+
+kind of RBF kernel I see somebody asks
+
+is there a limit for the size of data
+
+set at different deep learning
+
+algorithms can handle I know there
+
+really isn't one of the great things
+
+about deep learning is that it's
+
+trainable using stochastic gradient
+
+descent so you just load mini batches of
+
+examples and the cost of each step of
+
+training doesn't really change based on
+
+the size of the whole training set it
+
+only changes based on the size of the
+
+mini batch that you use so you can train
+
+with a trillion examples and use a mini
+
+batch of size 100 and you'll do
+
+perfectly fine that's one of the main
+
+advantages of deep learning over kernel
+
+machines
+
+if you use something like a colonel eyes
+
+svm you usually need to build a gram
+
+matrix where it's size is the number of
+
+rows is equal to the training set size
+
+and the number of columns is also equal
+
+to the training set size so you get
+
+quadratic scaling in memory and time
+
+with training set size deep loading
+
+completely avoids that problem somebody
+
+asks our neural networks still better
+
+for unstructured data I would say it
+
+depends on what exactly you mean by
+
+unstructured if you mean unstructured in
+
+the sense that nobody has curated it and
+
+divided it into different topics and
+
+fields that have been specifically
+
+labeled then I'd say neural networks are
+
+probably a pretty good bet do I know of
+
+any library that can be used in android
+
+I don't off the top of my head at least
+
+not anything that's that's released
+
+publicly but I know different companies
+
+have things internally have you seen the
+
+tool K Xen that's just the model based
+
+on the data you have I have not seen
+
+that tool it is conceivable that you
+
+could build a classifier that tells you
+
+which tool to use though somebody asks
+
+what is an average day at Google like
+
+for me ok so everybody at Google has a
+
+very different schedule really so
+
+anybody you ask is going to tell you
+
+something very different um I don't
+
+manage anybody so I don't actually spend
+
+any of my time on managing people if you
+
+asked for example my manager or his
+
+manager what their day is like they'd
+
+spent a lot of time meeting with their
+
+reports I don't do that unless I have an
+
+intern um a lot of the time I go to
+
+several different meetings for different
+
+projects and I help people figure out
+
+what machine learning algorithm they
+
+should be using or if I figure out if
+
+they need me to invent some kind of new
+
+technique for them to use for their
+
+project I spend an hour - every day
+
+working on the deep learning textbook
+
+and I spent a few hours coding and
+
+working on my own personal research
+
+projects and I spent a lot of time
+
+looking at the output of experiments
+
+that I launched a few days earlier um
+
+this question about advice for deploying
+
+ml as a service
+
+I don't have any broad general advice if
+
+you want to ask a question that's like
+
+if it is a specific aspect of ml as a
+
+service that you're wintering about you
+
+can ask that down below and I'll answer
+
+it when I when I scroll down to there
+
+somebody asks are cnn's limited in the
+
+number of classes so you're always
+
+limited in terms of the memory cost of
+
+storing the weight matrix of the output
+
+layer and if you have an extremely high
+
+number of classes it can get expensive
+
+to store that weight matrix there are a
+
+lot of techniques that people use to try
+
+to reduce that cost like using a
+
+hierarchical softmax
+
+rather than using one big softmax with
+
+one big weight matrix another thing you
+
+can do is you can factor your weight
+
+matrix to have a bottleneck in it the
+
+other thing that limits how well a
+
+convolutional network can do in terms of
+
+number of classes is just making sure
+
+that you have training data for all
+
+those classes you probably want to have
+
+a few thousand examples for any class
+
+that you care about recognizing really
+
+accurately but the the requirement that
+
+you have training data for all the
+
+classes applies to pretty much every
+
+machine learning algorithm right now
+
+someone asks is there an LS TMR in an
+
+algorithm for regression not
+
+classification prediction of numerical
+
+sequences and yeah there is one thing
+
+that's really cool about neural networks
+
+is it usually doesn't really matter
+
+whether you're doing classification or
+
+regression you just need to write down a
+
+loss function that makes their output do
+
+what you want it to do so anytime you
+
+have a neural network and you want it to
+
+output some number that you want to use
+
+as a probability then you use that
+
+number as the appropriate parameter of
+
+some probability distribution so if
+
+you're doing classification you say I'm
+
+going to take the softmax of the output
+
+number and that's going to give me a
+
+distribution of your classes if you're
+
+doing regression you say I'm going to
+
+take the output number and I'm going to
+
+use the output as the mean of the
+
+Gaussian distribution and then I'm just
+
+going to take that Gaussian distribution
+
+measure the log likelihood of the
+
+training data under that distribution
+
+and I'm going to have gradient descent
+
+minimize the negative log likelihood
+
+someone else asks if I've played with
+
+wet labs AI that can apparently find the
+
+best parameters like learning rate etc
+
+yeah so I have used wet lab on a few
+
+different occasions back before wet lab
+
+was called wet lab it was an open-source
+
+product called spearmint I've written a
+
+few different papers over the years if
+
+anybody's followed those papers closely
+
+the first time I tried using spearmint
+
+was for the multi prediction deep
+
+Boltzmann machine paper and it didn't
+
+really work and then the next time I
+
+tried it was for the max out networks
+
+paper and it also didn't really work
+
+there but let me explain a little bit
+
+about why I think it didn't work for me
+
+both of those papers had a lot of
+
+different kinds of parameters that I was
+
+trying to fit around maybe 40 different
+
+parameters and a lot of them were for
+
+things like the sizes of different
+
+layers or the sizes of convolutional
+
+network kernels or the number of layers
+
+in the network for things like that
+
+where you're determining the actual
+
+architecture of the network I think that
+
+what lab doesn't work as well I think it
+
+probably works okay for the learning
+
+rate and so on more recently I tried
+
+using wet lab the actual wet lab product
+
+for the paper that I published it I
+
+cleared this year explained us
+
+explaining and harnessing adversarial
+
+examples in that case I was just using
+
+it to choose the learning rate and
+
+momentum parameter and in that case it
+
+actually still didn't work very well for
+
+me and I don't have a very good
+
+explanation of why some of my other
+
+friends and colleagues I do have
+
+positive experiences with wet lab for
+
+example George Dahl who sits right
+
+across the table from me at Google has
+
+used wet lab and says that it it usually
+
+produces outputs that perform about as
+
+well as the values he chooses himself
+
+but he can find them with less effort if
+
+he uses wet lab somebody asks if I think
+
+that generative adversarial Nets have a
+
+brighter future that variational
+
+inference I think it's really hard to
+
+call I think the idea of research is
+
+people should explore many different
+
+ideas in parallel to each other they're
+
+also not necessarily
+
+mutually exclusive like you could
+
+imagine using variational inference to
+
+recover the code in a generative
+
+adversarial Network or you can imagine
+
+using a generative adversarial network
+
+to define your variational distribution
+
+so I think every serial training and
+
+variational techniques are both
+
+important tools for future research
+
+directions
+
+okay so I've worked my way through the
+
+question queue if any other questions
+
+pop up I can answer them I'll hang out
+
+for another minute or so and if there's
+
+no new questions in I'll let you move on
+
+thanks to everyone who's saying they
+
+enjoyed the talk all right so it looks
+
+like that's the end of the questions
+
+I'll post the slides on on Google+ in
+
+just a minute and you can just search
+
+Google Plus for E and Goodfellow and
+
+you'll see the link of the slides there
+
+um and yeah have a good day everyone
+
+you
+
